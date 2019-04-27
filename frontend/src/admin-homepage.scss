@@ -1,0 +1,294 @@
+// Colors
+$color-white: #FFF;
+$color-purple: #511EF4;
+$color-orange: #F4511E;
+$color-blue: #1EC1F4;
+$color-green: #1EF451;
+$color-pink: #F41EC1;
+$color-yellow: #F4BC1E;
+$color-cyan: #1EF4BC;
+$color-dark-blue: #1b417c;
+$color-darker-blue: #031c42;
+$color-black: #000000;
+$color-grey: #464951;
+$color-fb: #05314f;
+$color-ig: #4f034b;
+$color-linkedin: #01426d;
+$color-off-white: #f1f1f1;
+
+// Heights
+$height-header: 60px;
+$height-main: 1000px;
+$height-main-desktop: 800px;
+
+// Widths
+$width-sidebar: 300px;
+
+// Fonts
+$font-family: 'Quicksand', sans-serif;
+$font-home: 'Source Code Pro';
+$font-icon: 'Font Awesome 5 Free';
+$font-weight: 700;
+$font-size: 24px;
+$font-size-sm: 12px;
+$font-size-sm2: 18px;
+$font-size-movie-title: 20px;
+$font-size-modal-text: 20px;
+$font-size-med: 28px;
+$font-size-lg: 36px;
+$font-size-xl: 60px;
+$font-size-xxl: 80px;
+$menu-font-size: 18px;
+
+// Breakpoints
+$bp-mobile: 420px;
+$bp-tablet: 1023px;
+$bp-desktop-22: 1680px;
+@mixin for-size($size) {
+  @if $size == phone-only {
+    @media only screen and (max-width: $bp-mobile) { @content; }
+  } @else if $size == tablet-up {
+    @media only screen and (min-width: $bp-mobile + 1) { @content; }
+  } @else if $size == desktop-up {
+    @media only screen and (min-width: $bp-tablet + 1) { @content; }
+  } @else if $size == desktop-22-up {
+    @media only screen and (min-width: $bp-desktop-22 + 1) { @content; }
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  color: $color-white;
+}
+
+.sections {
+  margin: 0 auto;
+}
+
+%item {
+  width: 100%;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-white;
+}
+
+.section {
+  @extend %item;
+}
+
+.headers {
+    position: fixed;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    height: $height-header;
+    background-color: $color-darker-blue;
+    z-index: 10;
+}
+
+.header-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.header-user {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.headers + .items {
+    padding-top: $height-header;
+}
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: $width-sidebar;
+    color: $color-black;
+    background-color: $color-off-white;
+    transition: 1s;
+    display: grid;
+    grid-template-rows: repeat(5%, 10);
+    z-index: 1 !important;
+    font-size: 25px;
+    border-right: $color-black;
+    border-style: solid;
+    border-right-width: 1px;
+    border-bottom-style: none;
+    opacity: 0.9;
+}
+
+.categories-text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.headers + .sidebar {
+    padding-top: $height-header;
+}
+
+.sidebar + .items {
+    padding-top: $height-header;
+}
+
+.items {
+    @include for-size(desktop-up) {
+        padding-left: 50px;
+        padding-right: 50px;
+        height: $height-main-desktop;
+    }
+    @include for-size(desktop-22-up) {
+        padding-left: 20px;
+        padding-right: 20px;
+        height: $height-main;
+    }
+    font-size: 15px;
+    background-color: $color-off-white;
+}
+
+.checkbox {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 20px !important;
+    padding-left: 15px !important;
+    @include for-size(desktop-up) {
+        transform: scale(1);
+    }
+    @include for-size(desktop-22-up) {
+        transform: scale(1);
+    }
+}
+
+.fa-bars {
+    color: $color-white !important;
+}
+
+.fa-bars:hover {
+    cursor: pointer;
+}
+
+.fa-user-circle {
+    color: $color-white;
+}
+
+.username {
+    padding-left: 15px;
+    font-size: $font-size-sm2;
+    color: $color-white;
+}
+
+.username:hover {
+    cursor: pointer;
+}
+
+.fa-user-circle:hover {
+    cursor: pointer;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: $color-off-white;
+    @include for-size(desktop-up) {
+        padding-right: 25px;
+    }
+    @include for-size(desktop-22-up) {
+        padding-right: 0px;
+    }
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.grid {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.card {
+    @include for-size(desktop-up) {
+        margin-left: 15px !important;
+        margin-top: 15px !important;
+        padding: 10px 10px 10px 10px !important;
+    }
+    @include for-size(desktop-22-up) {
+        margin-left: 75px !important;
+        margin-top: 50px !important;
+        padding: 25px 25px 25px 25px !important;
+    } 
+    
+    color: $color-black;
+    transition: 0.5s ease !important;
+    z-index: 0 !important;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.prevnext {
+    display: grid;
+    padding-top: 30px;
+    grid-template-columns: 50% 50%;
+}
+
+.prev-button {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.next-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.prev, .next {
+    font-size: $font-size-lg;
+    transition: 0.5s ease;
+    position: absolute;
+    color: $color-black;
+}
+
+.prev:hover, .next:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+    color: $color-black;
+}
+
+.prev {
+    left: 0;
+    margin-left: 1.5%;
+}
+
+.next {
+    right: 0;
+    margin-right: 1.5%;
+}

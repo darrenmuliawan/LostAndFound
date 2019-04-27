@@ -1,0 +1,38 @@
+// Colors
+$color-black: #000000;
+
+// Height
+$height-modal: 500px;
+
+// Font size
+$font-size-button: 25px;
+
+.prev-modal, .next-modal {
+    position: absolute;
+    cursor: pointer;
+    font-size: $font-size-button;
+    transition: 0.5s ease;
+    color: $color-black;
+}
+
+.prev-modal:hover, .next-modal:hover {
+    transform: scale(1.5);
+    color: $color-black;
+}
+.modal {
+    height: $height-modal !important;
+}
+
+.prev-modal {
+    left: 0;
+    bottom: 0;
+    margin-bottom: 1.5%;
+    margin-left: 1.5%;
+}
+
+.next-modal {
+    right: 0;
+    bottom: 0;
+    margin-bottom: 1.5%;
+    margin-right: 1.5%;
+}

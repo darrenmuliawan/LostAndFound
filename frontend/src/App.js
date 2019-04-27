@@ -1,25 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import AdminHomepage from './admin-homepage.jsx';
+import AdminDetails from './admin-details.jsx';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router basename={process.env.PUBLIC_URL}>
+      <Switch>
+        <Route exact path="/admin" component={AdminHomepage}/>
+        <Route exact path="/admin/adminusername" component={AdminDetails}/>
+      </Switch>
+    </Router>
   );
 }
 
