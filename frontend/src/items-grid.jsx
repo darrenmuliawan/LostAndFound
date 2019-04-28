@@ -110,7 +110,7 @@ class ItemsGrid extends Component {
         }
 
         return (
-            <div className="container">
+            <div className="containers">
                 <Grid columns={4}>
                     {output.map(item =>
                         <Grid.Column>
