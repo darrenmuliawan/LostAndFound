@@ -20,6 +20,7 @@ $color-off-white: #f1f1f1;
 $height-header: 60px;
 $height-main: 1000px;
 $height-main-desktop: 800px;
+$height-post: 600px;
 
 // Widths
 $width-sidebar: 300px;
@@ -85,6 +86,13 @@ body {
   @extend %item;
 }
 
+.post {
+    height: $height-post;
+    color: $color-black;
+    font-size: $font-size-sm2;
+}
+
+
 .headers {
     position: fixed;
     display: grid;
@@ -107,6 +115,13 @@ body {
     align-items: center;
 }
 
+.link {
+    color: $color-white !important;
+}
+
+.logo {
+    color: $color-white;
+}
 .logo:hover {
     cursor: pointer;
 }
@@ -209,7 +224,7 @@ body {
     cursor: pointer;
 }
 
-.container {
+.containers {
     height: 100%;
     width: 100%;
     background-color: $color-off-white;
@@ -240,8 +255,8 @@ body {
         margin-left: 75px !important;
         margin-top: 50px !important;
         padding: 25px 25px 25px 25px !important;
-    } 
-    
+    }
+
     color: $color-black;
     transition: 0.5s ease !important;
     z-index: 0 !important;
