@@ -76,9 +76,29 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="loginSection">
+          <div className="sections">
+              <div className="section headers">
+                  <div className="header-icon">
+                      <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
+                  </div>
+                  <div className="header-logo">
+                      <p className="logo"> Lost and Found </p>
+                  </div>
+                  <div className="header-user">
+                      <Link to="/admin/adminusername">
+                          <FontAwesomeIcon icon= {faUserCircle}/>
+                      </Link>
+                      <Link to="/admin/adminusername">
+                          <p className="username"> Darren Muliawan </p>
+                      </Link>
+                  </div>
+              </div>
 
-                <Button onClick = { this.handleGoogleLogin }>Google</Button>
+              <div className="loginSection">
+
+                  <Button onClick = { this.handleGoogleLogin }>Google</Button>
+
+              </div>
 
             </div>
         )
@@ -88,3 +108,5 @@ class Login extends Component {
 
 
 export default Login;
+
+
