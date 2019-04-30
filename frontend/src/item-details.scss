@@ -6,6 +6,11 @@ $height-modal: 500px;
 
 // Font size
 $font-size-button: 25px;
+$font-size-subcategory: 18px;
+$font-size-details: 15px;
+
+// Font weight
+$font-weight-subcategory: 600;
 
 .prev-modal, .next-modal {
     position: absolute;
@@ -35,4 +40,14 @@ $font-size-button: 25px;
     bottom: 0;
     margin-bottom: 1.5%;
     margin-right: 1.5%;
+}
+
+.subcategory {
+    font-size: $font-size-subcategory;
+    font-weight: $font-weight-subcategory;
+}
+
+.details {
+    font-size: $font-size-details;
+    margin-left: 15px;
 }
