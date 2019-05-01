@@ -5,6 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormHome } from "./SubmissionForm.module.scss";
 
+import axios from "axios";
+
 const options = [
   { key: "b", text: "Book", value: "book" },
   { key: "bpw", text: "Bag/Purse/Wallet", value: "bag/purse/wallet" },
@@ -23,7 +25,6 @@ const options = [
 class SubmissionForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       lostOrFound: "",
       firstName: "",
@@ -31,15 +32,17 @@ class SubmissionForm extends Component {
       email: "",
       phoneNumber: "",
       description: "",
+      file: null,
       dateLost: new Date(),
       submitted: false,
       error: false
     };
-
+    this.fileInputRef = React.createRef();
     this.lostOrFoundHandler = this.lostOrFoundHandler.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.dateHandler = this.dateHandler.bind(this);
+    this.fileChange = this.fileChange.bind(this);
   }
 
   lostOrFoundHandler(event, { value }) {
@@ -58,28 +61,37 @@ class SubmissionForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  submitForm() {
+  fileChange(event) {
+    this.setState({ file: event.target.files[0] });
+  }
+
+  submitHandler(event) {
     const data = this.state;
-    const missingFields = [];
     for (const key in data) {
       if (data[key] === "") {
-        missingFields.push(key);
+        this.setState({
+          submitted: false,
+          error: true
+        });
+        return;
       }
     }
 
-    if (missingFields.length) {
-      this.setState({
-        submitted: false,
-        error: true
-      });
-    } else {
-      this.setState({
-        submitted: true,
-        error: false
-      });
-      // submit form to firebase
-      console.log(data);
+    this.setState({
+      submitted: true,
+      error: false
+    });
+
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
     }
+    console.log(formData);
+    // TODO: submit formData to firebase
+    // axios
+    //   .post("firebase url", formData)
+    //   .then(res => console.log(res))
+    //   .catch(err => console.log(err));
   }
 
   render() {
@@ -150,17 +162,25 @@ class SubmissionForm extends Component {
           placeholder="Brand"
           onChange={this.inputChangeHandler}
         />
+        <Form.Field>
+          <label>Upload Image (Optional)</label>
+          <Form.Button onClick={() => this.fileInputRef.current.click()}>
+            Choose File
+          </Form.Button>
+          <input
+            ref={this.fileInputRef}
+            type="file"
+            hidden
+            onChange={this.fileChange}
+          />
+        </Form.Field>
         <Form.TextArea
           label="Description of item"
           name="description"
           onChange={this.inputChangeHandler}
         />
-        <Form.Button onClick={this.submitForm}>Submit</Form.Button>
-        <Message
-          success
-          header="Form Completed"
-          content="Lost/Found item has been submitted"
-        />
+        <Form.Button onClick={this.submitHandler}>Submit</Form.Button>
+        <Message success header="Success" content="Form submitted." />
         <Message error header="Error" content="Incomplete fields." />
       </Form>
     );
