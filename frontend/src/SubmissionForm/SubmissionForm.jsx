@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Message } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
+import LocationSearchInput from "./LocationSearchInput";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FormHome } from "./SubmissionForm.module.scss";
@@ -26,14 +27,17 @@ class SubmissionForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lostOrFound: "",
+      brand: "",
+      category: "",
+      description: "",
+      email: "",
       firstName: "",
       lastName: "",
-      email: "",
+      location: "",
+      lostOrFound: "",
       phoneNumber: "",
-      description: "",
       file: null,
-      dateLost: new Date(),
+      dateLostOrFound: new Date(),
       submitted: false,
       error: false
     };
@@ -54,18 +58,20 @@ class SubmissionForm extends Component {
   }
 
   dateHandler(date) {
-    this.setState({ dateLost: date });
+    this.setState({ dateLostOrFound: date });
   }
 
-  inputChangeHandler(event) {
-    this.setState({ [event.target.name]: event.target.value });
+  inputChangeHandler(event, data) {
+    event.target.name
+      ? this.setState({ [event.target.name]: data.value })
+      : this.setState({ [data.name]: data.value });
   }
 
   fileChange(event) {
     this.setState({ file: event.target.files[0] });
   }
 
-  submitHandler(event) {
+  submitHandler() {
     const data = this.state;
     for (const key in data) {
       if (data[key] === "") {
@@ -95,7 +101,7 @@ class SubmissionForm extends Component {
   }
 
   render() {
-    const { lostOrFound, submitted, error, dateLost } = this.state;
+    const { lostOrFound, submitted, error, dateLostOrFound } = this.state;
     return (
       <Form className={FormHome} success={submitted} error={error}>
         <Form.Group inline>
@@ -147,21 +153,29 @@ class SubmissionForm extends Component {
         </Form.Group>
         <Form.Field>
           <label>Date Lost/Found</label>
-          <DatePicker selected={dateLost} onChange={this.dateHandler} />
+          <DatePicker selected={dateLostOrFound} onChange={this.dateHandler} />
         </Form.Field>
         <Form.Select
           fluid
-          label="What type of item did you lose/find?"
+          name="category"
+          label="Item Category"
           options={options}
           placeholder="Category"
+          onChange={this.inputChangeHandler}
         />
         <Form.Input
           fluid
           name="brand"
           label="Brand"
-          placeholder="Brand"
+          placeholder="e.g. Apple, Nike"
           onChange={this.inputChangeHandler}
         />
+        <Form.Field>
+          <label>Location Lost/Found</label>
+          <LocationSearchInput
+            onChange={loc => this.setState({ location: loc })}
+          />
+        </Form.Field>
         <Form.Field>
           <label>Upload Image (Optional)</label>
           <Form.Button onClick={() => this.fileInputRef.current.click()}>
