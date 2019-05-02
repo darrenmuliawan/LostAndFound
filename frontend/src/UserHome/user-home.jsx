@@ -79,19 +79,41 @@ class UserHome extends Component {
               	</div>
                 
                 <div className="section content-wrapper">
-                	<ScrollView ref={scroller => this._scroller = scroller}>
-			          <div className="scroller">
-			            {dummyItemNames.map(({ name }) => {
-			              return (
-			                <ScrollElement name={name}>
-			                  <div className="item">
-			                    {name}
-			                  </div>
-			                </ScrollElement>
-			              );
-			            })}
-			          </div>
-			        </ScrollView>
+             		<div className="items lost">
+             			<h2>Lost Items</h2>
+
+	                	<ScrollView ref={scroller => this._scroller = scroller}>
+				          <div className="scroller">
+				            {dummyItemNames.map(({ name }) => {
+				              return (
+				                <ScrollElement name={name}>
+				                  <div className="item">
+				                    {name}
+				                  </div>
+				                </ScrollElement>
+				              );
+				            })}
+				          </div>
+				        </ScrollView>
+				    </div>
+
+				    <div className="items found">
+				        <h2>Found Items</h2>
+
+				        <ScrollView ref={scroller => this._scroller = scroller}>
+				          <div className="scroller">
+				            {dummyItemNames.map(({ name }) => {
+				              return (
+				                <ScrollElement name={name}>
+				                  <div className="item">
+				                    {name}
+				                  </div>
+				                </ScrollElement>
+				              );
+				            })}
+				          </div>
+				        </ScrollView>
+			        </div>
                 </div>
             </div>
         )

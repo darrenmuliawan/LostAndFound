@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { findDOMNode } from "react-dom";
 import scrollIntoView from "scroll-into-view";
 import PropTypes from "prop-types";
-import './scroll.scss'
+import './user-home.scss'
 
 class ScrollView extends Component {
   static childContextTypes = {
