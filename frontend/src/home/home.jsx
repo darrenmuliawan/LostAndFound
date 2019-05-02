@@ -21,7 +21,10 @@ class Home extends Component {
         super();
 
         this.state = {
-          user: null,
+          user: {
+            displayName: '',
+            photoURL: '',
+          },
         };
 
         this.auth = app.auth();
@@ -43,6 +46,8 @@ class Home extends Component {
 
 
     render() {
+        console.log(this.state.user);
+        
         return (
           <div className="sections">
               <div className="section headers">
@@ -50,23 +55,47 @@ class Home extends Component {
                       <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
                   </div>
                   <div className="header-logo">
-                      <p className="logo"> Lost and Found </p>
+                    { this.state.user == null ? 
+                        <p className="logo"> Lost and Found </p> 
+                        :
+                        <Link to={{
+                          pathname: "/admin",
+                          state: {
+                            id: this.state.user.uid,
+                            name: this.state.user.displayName,
+                            photoURL: this.state.user.photoURL,
+                            email: this.state.user.email,
+                          }
+                        }}>
+                          <p className="logo"> Lost and Found </p>
+                        </Link>
+                    }
                   </div>
                     { this.state.user == null ?
                         <div className="header-user">
-                          <Link to="/admin/adminusername">
-                              <FontAwesomeIcon icon= {faUserCircle}/>
-                          </Link>
-                          <Link to="/admin/adminusername">
-                              <p className="username"> null </p>
-                          </Link>
                         </div>
                         :
                         <div className="header-user">
-                          <Link to="/admin/adminusername">
+                          <Link to={{
+                            pathname: "/admin/adminusername",
+                            state: {
+                              id: this.state.user.uid,
+                              name: this.state.user.displayName,
+                              photoURL: this.state.user.photoURL,
+                              email: this.state.user.email,
+                            }
+                          }}>
                             <img className="avatarImg" src={this.state.user.photoURL}/>
                           </Link>
-                          <Link to="/admin/adminusername">
+                          <Link to={{
+                            pathname: "/admin/adminusername",
+                            state: {
+                              id: this.state.user.uid,
+                              name: this.state.user.displayName,
+                              photoURL: this.state.user.photoURL,
+                              email: this.state.user.email,
+                            }
+                          }}>
                               <p className="username"> {this.state.user.displayName} </p>
                           </Link>
                         </div>
