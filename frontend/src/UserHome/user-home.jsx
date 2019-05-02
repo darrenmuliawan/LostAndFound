@@ -10,6 +10,7 @@ import { Button} from 'semantic-ui-react'
 import Login from '../login/login.jsx'
 import FirebaseContext from '../context.jsx'
 import ScrollView, { ScrollElement } from "./scroll.jsx";
+import { Redirect } from 'react-router'
 
 import app from 'firebase/app';
 import 'firebase/auth';
@@ -45,6 +46,10 @@ class UserHome extends Component {
   	}
 
 	render() {
+
+		if(this.state.user == null){
+			return <Redirect to='/' />
+		}
 
 		let dummyItemNames = [{name: "Textbook"}, {name: "Laptop"}, {name: "iPhone"}, {name: "Keys"}, {name: "Notebook"}, {name: "Dog"}, {name: "Grandma"}, {name: "My GPA"}]
 
