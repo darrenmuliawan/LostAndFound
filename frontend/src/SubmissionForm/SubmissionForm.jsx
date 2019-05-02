@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Form, Message } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import LocationSearchInput from "./LocationSearchInput";
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FormHome } from "./SubmissionForm.module.scss";
-
-import axios from "axios";
 
 const options = [
   { key: "b", text: "Book", value: "book" },
@@ -22,6 +22,16 @@ const options = [
   { key: "l", text: "Laptop", value: "laptop" },
   { key: "o", text: "Other", value: "other" }
 ];
+
+var config = {
+  apiKey: "AIzaSyAXh0bhHnzUDfFmEdnX0yyLuLbncYhNAqE",
+  authDomain: "ilini-lostandfound.firebaseapp.com",
+  databaseURL: "https://ilini-lostandfound.firebaseio.com",
+  projectId: "ilini-lostandfound",
+  storageBucket: "ilini-lostandfound.appspot.com",
+  messagingSenderId: "596991029999"
+};
+firebase.initializeApp(config);
 
 class SubmissionForm extends Component {
   constructor(props) {
@@ -83,21 +93,25 @@ class SubmissionForm extends Component {
       }
     }
 
+    const db = firebase.firestore();
+    db.collection("items")
+      .add({
+        brand: data.brand,
+        category: data.category,
+        dataeLostOrFound: data.dateLostOrFound,
+        description: data.description,
+        email: data.email,
+        fullName: `${data.firstName} ${data.lastName}`,
+        location: data.location,
+        lostOrFound: data.lostOrFound,
+        phoneNumber: data.phoneNumber
+      })
+      .then(docRef => console.log(docRef))
+      .catch(err => console.log(err));
     this.setState({
       submitted: true,
       error: false
     });
-
-    const formData = new FormData();
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
-    console.log(formData);
-    // TODO: submit formData to firebase
-    // axios
-    //   .post("firebase url", formData)
-    //   .then(res => console.log(res))
-    //   .catch(err => console.log(err));
   }
 
   render() {
@@ -147,6 +161,7 @@ class SubmissionForm extends Component {
             fluid
             name="phoneNumber"
             label="Phone number"
+            type="number"
             placeholder="xxx-xxx-xxxx"
             onChange={this.inputChangeHandler}
           />
@@ -166,8 +181,8 @@ class SubmissionForm extends Component {
         <Form.Input
           fluid
           name="brand"
-          label="Brand"
-          placeholder="e.g. Apple, Nike"
+          label="Brand/Model"
+          placeholder="e.g. Nike, Samsung Galaxy S10"
           onChange={this.inputChangeHandler}
         />
         <Form.Field>
