@@ -6,6 +6,7 @@ import AdminDetails from './admin-details.jsx';
 import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'
 import Login from './login/login.jsx';
 import Home from './home/home.jsx';
+import UserHome from './UserHome/user-home.jsx';
 // import AdminDetails from './admin-details.jsx'; <Route exact path="/admin/adminusername" component={AdminDetails}/>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -54,6 +55,7 @@ render() {
           <Route exact path="/admin/adminusername" component={AdminDetails} />
           <Route exact path="/form" component={SubmissionForm} />
           <Route exact path="/" component={Home}/>
+          <Route exact path="/user" component={UserHome}/>
         </Switch>
       </Router>
     );

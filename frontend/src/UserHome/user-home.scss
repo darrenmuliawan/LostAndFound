@@ -1,0 +1,57 @@
+// Colors
+
+$color-darker-blue: #031c42;
+$color-off-white: #f1f1f1;
+
+// Heights
+$height-header: 60px;
+$height-main: 1000px;
+$height-main-desktop: 800px;
+$height-post: 600px;
+
+.headers {
+    position: fixed;
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    height: $height-header;
+    background-color: $color-darker-blue;
+    z-index: 10;
+}
+
+.header-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.header-user {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.headers + .content-wrapper {
+    padding-top: $height-header;
+}
+
+.content-wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 15px;
+    color: #555;
+    justify-content: center;
+    text-align: center;
+}
+
