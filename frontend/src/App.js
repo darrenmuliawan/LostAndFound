@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import AdminHomepage from './admin-homepage.jsx';
+import AdminDetails from './admin-details.jsx';
+import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'
 import Login from './login/login.jsx';
 import Home from './home/home.jsx';
 // import AdminDetails from './admin-details.jsx'; <Route exact path="/admin/adminusername" component={AdminDetails}/>
@@ -49,8 +51,9 @@ render() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/admin" component={AdminHomepage}/>
+          <Route exact path="/admin/adminusername" component={AdminDetails} />
+          <Route exact path="/form" component={SubmissionForm} />
           <Route exact path="/" component={Home}/>
-          <Route exact path="/login" component={Login}/>
         </Switch>
       </Router>
     );
