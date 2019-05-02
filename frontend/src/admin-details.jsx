@@ -4,7 +4,8 @@ import './admin-homepage.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { Container, Header, Button, Divider } from 'semantic-ui-react'
+import { Container, Header, Button, Divider, Modal } from 'semantic-ui-react'
+import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'
 import 'semantic-ui-css/semantic.min.css';
 
 class AdminDetails extends Component {
@@ -12,13 +13,19 @@ class AdminDetails extends Component {
         super();
 
         this.state = {
-            visible: false,
+            open: false,
         }
     }
 
-    openPost = () => {
+    openSubmissionForm = () => {
         this.setState({
-            visible: true,
+            open: true,
+        });
+    }
+
+    closeSubmissionForm = () => {
+        this.setState({
+            open: false,
         });
     }
 
@@ -49,10 +56,15 @@ class AdminDetails extends Component {
                         <Header as='h2'> Welcome, Darren Muliawan! </Header>
                         <Divider />
                         <p> What do you want to do today? </p>
-                        <Button positive onClick={ this.openPost }> I Found Something! </Button>
-                        <Button negative> DELETE from Database </Button>
+                        <Button positive onClick={ this.openSubmissionForm }> I Found Something! </Button>
                     </Container>
                 </div>
+
+                <Modal open = { this.state.open } onClose = { this.closeSubmissionForm } closeIcon>
+                    <Modal.Content>
+                        <SubmissionForm/>
+                    </Modal.Content>
+                </Modal>
             </div>
         )
     }

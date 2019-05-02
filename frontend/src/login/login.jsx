@@ -7,19 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button} from 'semantic-ui-react'
+import googleImg from './googleButton.png';
 
 
 import app from 'firebase/app';
 import 'firebase/auth';
 
-const config = {
-  apiKey: "AIzaSyAXh0bhHnzUDfFmEdnX0yyLuLbncYhNAqE",
-  authDomain: "ilini-lostandfound.firebaseapp.com",
-  databaseURL: "https://ilini-lostandfound.firebaseio.com",
-  projectId: "ilini-lostandfound",
-  storageBucket: "ilini-lostandfound.appspot.com",
-  messagingSenderId: "596991029999"
-};
+
 
 
 class Login extends Component {
@@ -27,16 +21,15 @@ class Login extends Component {
         super();
 
         this.state = {
-          email: '',
-          password: ''
         };
 
         //this.login = this.login.bind(this);
         //this.handleChange = this.handleChange.bind(this);
-        app.initializeApp(config);
+
         this.auth = app.auth();
         this.googleProvider = new app.auth.GoogleAuthProvider();
         this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
+        this.handleGoogleLogout = this.handleGoogleLogout.bind(this);
         this.authListener = this.authListener.bind(this);
     }
 
@@ -46,6 +39,7 @@ class Login extends Component {
 
     handleChange(e) {
       this.setState({ [e.target.name]: e.target.value });
+      console.log("STATE CHANGE", this.state);
     }
 
     authListener() {
@@ -54,9 +48,15 @@ class Login extends Component {
         if (user) {
           this.setState({ user });
           localStorage.setItem('user', user.uid);
+          localStorage.setItem('name', user.displayName);
+          localStorage.setItem('imageURL', user.photoURL);
+          localStorage.setItem('email', user.email);
         } else {
           this.setState({ user: null });
           localStorage.removeItem('user');
+          localStorage.removeItem('name');
+          localStorage.removeItem('imageURL');
+          localStorage.removeItem('email');
         }
       });
     }
@@ -71,42 +71,37 @@ class Login extends Component {
         //localStorage.setItem(firebaseAuthKey, "1");
     }
 
-
+    handleGoogleLogout() {
+      this.auth.signOut().then(() => {
+        this.setState({
+          user: null
+        });
+      });
+            console.log("login");
+        //localStorage.setItem(firebaseAuthKey, "1");
+    }
 
 
     render() {
-        return (
-          <div className="sections">
-              <div className="section headers">
-                  <div className="header-icon">
-                      <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
-                  </div>
-                  <div className="header-logo">
-                      <p className="logo"> Lost and Found </p>
-                  </div>
-                  <div className="header-user">
-                      <Link to="/admin/adminusername">
-                          <FontAwesomeIcon icon= {faUserCircle}/>
-                      </Link>
-                      <Link to="/admin/adminusername">
-                          <p className="username"> Darren Muliawan </p>
-                      </Link>
-                  </div>
-              </div>
 
+          if(this.state.user){
+            return(
+              <div >
+                <Button onClick = { this.handleGoogleLogout }>logout</Button>
+
+              </div>
+            )
+          }else{
+            return(
               <div className="loginSection">
-
-                  <Button onClick = { this.handleGoogleLogin }>Google</Button>
-
+                  <img className="googleButton" src={googleImg} onClick = { this.handleGoogleLogin }/>
               </div>
+            )
+          }
 
-            </div>
-        )
     }
 }
 
 
 
 export default Login;
-
-
