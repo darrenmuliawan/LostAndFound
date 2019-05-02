@@ -81,7 +81,7 @@ class Home extends Component {
                     <h3>Found Something</h3>
                   </div>
                   <div>
-                    <h3>Lost Something</h3>
+                    <h3>Lost Something </h3>
                   </div>
                 </div>
                 <div className="horizontal">
