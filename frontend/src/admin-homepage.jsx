@@ -63,6 +63,8 @@ class AdminHome extends Component {
     }
 
     render() {
+        console.log(this.props.location.state);
+        
         return (
             <div className="sections">
                 <div className="section headers">
@@ -72,15 +74,32 @@ class AdminHome extends Component {
                     <div className="header-logo">
                         <p className="logo"> Lost and Found </p>
                     </div>
+                        
                     <div className="header-user">
-                        <Link to="/admin/adminusername">
-                            <FontAwesomeIcon icon= {faUserCircle}/>
+                        <Link to={{
+                            pathname: "/admin/adminusername",
+                            state: {
+                                id: this.props.location.state.id,
+                                name: this.props.location.state.name,
+                                photoURL: this.props.location.state.photoURL,
+                                email: this.props.location.state.email,
+                            }
+                        }}>
+                            <img className="avatarImg" src={this.props.location.state.photoURL}/>
                         </Link>
-                        <Link to="/admin/adminusername">
-                            <p className="username"> Darren Muliawan </p>
+                        <Link to={{
+                            pathname: "/admin/adminusername",
+                            state: {
+                                id: this.props.location.state.id,
+                                name: this.props.location.state.name,
+                                photoURL: this.props.location.state.photoURL,
+                                email: this.props.location.state.email,
+                            }
+                        }}>
+                            <p className="username"> {this.props.location.state.name} </p>
                         </Link>
                     </div>
-                </div>
+              </div>
                 
                 <Sidebar
                     filter = { this.applyFilter }

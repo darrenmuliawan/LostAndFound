@@ -72,15 +72,15 @@ class ItemsGrid extends Component {
                 selectedIndex: item.index,
                 items: items
             })
-        }        
+        }
         return f;
     }
 
     handleClose = item => {
-        this.setState({ 
+        this.setState({
             selectedItem: item,
             selectedIndex: item.index,
-            open: false 
+            open: false
         });
     }
 
@@ -98,7 +98,7 @@ class ItemsGrid extends Component {
     nextItemDetails = () => {
         console.log("NEXT BRO");
         console.log(this.state.selectedIndex);
-        
+
         if (this.state.selectedIndex != 15) {
             this.setState(prevState => ({
                 selectedIndex: prevState.selectedIndex + 1
@@ -113,14 +113,14 @@ class ItemsGrid extends Component {
         if (filter.length !== 0) {
             let i;
             console.log("Filtering begin!");
-            
+
             for (i = 0; i < filter.length; i++) {
                 output.forEach(item => {
                     if (!item.type.includes(filter[i])) {
                         item.name = "Not this!";
                         console.log(output);
                         console.log(this.state.items);
-                        
+
                     }
                 })
                 //output = items.filter(item => item.type.includes(filter[i]));
@@ -132,17 +132,17 @@ class ItemsGrid extends Component {
                 <Grid columns={4}>
                     {output.map(item =>
                         <Grid.Column>
-                            <Card 
+                            <Card
                                 header= {item.name}
                                 meta= {item.type}
                                 description= {item.description}
                                 onClick={this.handleOpenClick(item, items2)}
                             />
                         </Grid.Column>
-                    )} 
+                    )}
                 </Grid>
 
-                <ItemDetails 
+                <ItemDetails
                     selectedItem = { this.state.selectedItem }
                     open = { this.state.open }
                     onClose = { this.handleClose }

@@ -30,6 +30,8 @@ class AdminDetails extends Component {
     }
 
     render() {
+        console.log(this.props);
+        
         return(
             <div className="sections">
                 <div className="section headers">
@@ -37,23 +39,27 @@ class AdminDetails extends Component {
                         <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
                     </div>
                     <div className="header-logo">
-                        <Link to="/admin">
+                        <Link to={{
+                            pathname: "/admin",
+                            state: {
+                              id: this.props.location.state.id,
+                              name: this.props.location.state.name,
+                              photoURL: this.props.location.state.photoURL,
+                              email: this.props.location.state.email,
+                            }
+                          }}>
                             <p className="logo"> Lost and Found </p>
                         </Link>
                     </div>
                     <div className="header-user">
-                        <Link to="/admin/adminusername">
-                            <FontAwesomeIcon icon= {faUserCircle}/>
-                        </Link>
-                        <Link to="/admin/adminusername">
-                            <p className="username"> Darren Muliawan </p>
-                        </Link>
+                        <img className="avatarImg" src={this.props.location.state.photoURL}/>
+                        <p className="username"> {this.props.location.state.name} </p>
                     </div>
                 </div>
 
                 <div className="section post">
                     <Container fluid textAlign='center'>
-                        <Header as='h2'> Welcome, Darren Muliawan! </Header>
+                        <Header as='h2'> Welcome, { this.props.location.state.name }! </Header>
                         <Divider />
                         <p> What do you want to do today? </p>
                         <Button positive onClick={ this.openSubmissionForm }> I Found Something! </Button>
@@ -61,7 +67,7 @@ class AdminDetails extends Component {
                 </div>
 
                 <Modal open = { this.state.open } onClose = { this.closeSubmissionForm } closeIcon>
-                    <Modal.Content>
+                    <Modal.Content scrolling>
                         <SubmissionForm/>
                     </Modal.Content>
                 </Modal>
