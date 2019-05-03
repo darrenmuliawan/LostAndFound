@@ -14,6 +14,8 @@ import { Redirect } from 'react-router'
 
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
+import { firebase } from '../firebase.jsx';
 
 class UserHome extends Component {
 
@@ -45,13 +47,21 @@ class UserHome extends Component {
     	this._scroller.scrollTo(name);
   	}
 
+  	getUserLostItems() {
+  		var itemRef = firebase.database().ref('items');
+		var itemQuery = itemRef.orderByChild("email").equalTo("darrenm2@illinois.edu");
+		itemQuery.on("value", function(snapshot) {
+		  console.log(snapshot.val());
+		  snapshot.forEach(function(child) {
+		    console.log(child.brand);
+		  });
+		});
+  	}
+
 	render() {
-
-		if(this.state.user == null){
-			return <Redirect to='/' />
-		}
-
 		let dummyItemNames = [{name: "Textbook"}, {name: "Laptop"}, {name: "iPhone"}, {name: "Keys"}, {name: "Notebook"}, {name: "Dog"}, {name: "Grandma"}, {name: "My GPA"}]
+
+		this.getUserLostItems();
 
         return (
             <div className="sections">
