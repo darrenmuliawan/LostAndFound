@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './admin-homepage.scss'
-import { Grid, Card, Image } from 'semantic-ui-react'
+import { Grid, Card, Image, List } from 'semantic-ui-react'
 import ItemDetails from './item-details.jsx'
 
-let items2 = [
+/* let items2 = [
     {index: 0, name: "Lost iPhone", brand: "Apple", color: "Black", type: "Electronic", description: "Lost in Grainger Library.", 
     imageUrl: ["https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/xs/iphone-xs-max-gold-select-2018?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1550795409154",
     "https://cnet1.cbsistatic.com/img/UgeE_LeHUPKtsr413c_Nt8YtLhA=/868x488/2018/09/17/ff8ce8b7-fb73-4d2b-ae99-f546652e38df/44-iphone-xs.jpg","https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/xs/iphone-xs-max-gold-select-2018?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1550795409154",
@@ -39,7 +39,7 @@ let items2 = [
     {index: 14, name: "Hello", type: "Clothes", description: "Lost in Grainger Library", imageUrl: ["https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/image/AppleInc/aos/published/images/i/ph/iphone/xs/iphone-xs-max-gold-select-2018?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1550795409154",
     "https://cnet1.cbsistatic.com/img/UgeE_LeHUPKtsr413c_Nt8YtLhA=/868x488/2018/09/17/ff8ce8b7-fb73-4d2b-ae99-f546652e38df/44-iphone-xs.jpg"]},
     {index: 15, name: "The End", type: "Other", description: "Lost in Grainger Library"},
-]
+] */
 
 class ItemsGrid extends Component {
     constructor() {
@@ -51,26 +51,27 @@ class ItemsGrid extends Component {
             selectedIndex: 0,
             items: [{
                 index: 0,
-                name: '',
-                type: '',
+                brand: '',
+                category: '',
+                dateLostOrFound: '',
                 description: '',
+                email: '',
+                fullName: '',
+                location: '',
+                lostOrFound: '',
+                phoneNumber: '',
+                file: null,
             }]
         }
     }
 
-    componentDidMount() {
-        this.setState({
-            items: items2
-        });
-    }
-
-    handleOpenClick = (item, items) => {
+    handleOpenClick = (item) => {
         const f = () => {
             this.setState({
                 open: true,
                 selectedItem: item,
-                selectedIndex: item.index,
-                items: items
+                selectedIndex: item.index + 1,
+                items: this.props.items
             })
         }
         return f;
@@ -107,8 +108,10 @@ class ItemsGrid extends Component {
     }
 
     render () {
+        console.log(this.props.items);
+        
         let filter = this.props.filter;
-        let output = JSON.parse(JSON.stringify(this.state.items));
+        let output = JSON.parse(JSON.stringify(this.props.items));
 
         if (filter.length !== 0) {
             let i;
@@ -116,27 +119,56 @@ class ItemsGrid extends Component {
 
             for (i = 0; i < filter.length; i++) {
                 output.forEach(item => {
-                    if (!item.type.includes(filter[i])) {
-                        item.name = "Not this!";
+                    if (!item.category.includes(filter[i])) {
+                        item.brand = "Not this!";
                         console.log(output);
                         console.log(this.state.items);
-
                     }
                 })
-                //output = items.filter(item => item.type.includes(filter[i]));
             }
         }
 
         return (
             <div className="containers">
+                <div>
+                    <p className="list-title"> List of Lost Items: </p>
+                </div>
+                <List selection divided relaxed className="item-list">
+                    {output.map(item => 
+                        <List.Item onClick={this.handleOpenClick(item)}>
+                            <List.Content >
+                                <List.Header>
+                                    {item.fullName}
+                                </List.Header>
+                                <List.Description>
+                                    {item.brand}
+                                </List.Description>
+                            </List.Content>
+                        </List.Item>
+                    )}
+                </List>
+
+                <ItemDetails
+                    selectedItem = { this.state.selectedItem }
+                    open = { this.state.open }
+                    onClose = { this.handleClose }
+                    nextItem = { this.nextItemDetails }
+                    prevItem = { this.prevItemDetails }
+                    selectedIndex = { this.state.selectedIndex }
+                    items = { this.props.allItems }
+                />
+            </div>
+        )
+        /*return (
+            <div className="containers">
                 <Grid columns={4}>
                     {output.map(item =>
                         <Grid.Column>
                             <Card
-                                header= {item.name}
-                                meta= {item.type}
+                                header= {item.brand}
+                                meta= {item.category}
                                 description= {item.description}
-                                onClick={this.handleOpenClick(item, items2)}
+                                onClick={this.handleOpenClick(item)}
                             />
                         </Grid.Column>
                     )}
@@ -149,12 +181,11 @@ class ItemsGrid extends Component {
                     nextItem = { this.nextItemDetails }
                     prevItem = { this.prevItemDetails }
                     selectedIndex = { this.state.selectedIndex }
-                    items = { this.state.items }
+                    items = { this.props.allItems }
                 />
-                <a className="prev" onClick={this.prevItem}> &#10094; </a>
-                <a className="next" onClick={this.nextItem}> &#10095; </a>
+                
             </div>
-        )
+        )*/
     }
 }
 

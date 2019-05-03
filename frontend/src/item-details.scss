@@ -3,6 +3,7 @@ $color-black: #000000;
 
 // Height
 $height-modal: 500px;
+$height-modal-desktop: 600px;
 
 // Font size
 $font-size-button: 25px;
@@ -11,6 +12,22 @@ $font-size-details: 15px;
 
 // Font weight
 $font-weight-subcategory: 600;
+
+// Breakpoints
+$bp-mobile: 420px;
+$bp-tablet: 1023px;
+$bp-desktop-22: 1680px;
+@mixin for-size($size) {
+  @if $size == phone-only {
+    @media only screen and (max-width: $bp-mobile) { @content; }
+  } @else if $size == tablet-up {
+    @media only screen and (min-width: $bp-mobile + 1) { @content; }
+  } @else if $size == desktop-up {
+    @media only screen and (min-width: $bp-tablet + 1) { @content; }
+  } @else if $size == desktop-22-up {
+    @media only screen and (min-width: $bp-desktop-22 + 1) { @content; }
+  }
+}
 
 .prev-modal, .next-modal {
     position: absolute;
@@ -23,9 +40,6 @@ $font-weight-subcategory: 600;
 .prev-modal:hover, .next-modal:hover {
     transform: scale(1.5);
     color: $color-black;
-}
-.modal {
-    height: $height-modal !important;
 }
 
 .prev-modal {
@@ -50,4 +64,13 @@ $font-weight-subcategory: 600;
 .details {
     font-size: $font-size-details;
     margin-left: 15px;
+}
+
+.button-found {
+    width: 100%;
+}
+
+.list-title {
+    color: $color-black;
+    font-size: 24px;
 }

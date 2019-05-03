@@ -2,25 +2,15 @@ import React, { Component } from 'react';
 import './item-details.scss'
 import { Modal, Header, Image } from 'semantic-ui-react'
 import { isArray } from 'util';
+import { Button } from 'semantic-ui-react';
+import firebase from "firebase/app";
 
 class ItemDetails extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-
-        }
-    }
-
     handleClose = () => {
         this.props.onClose(this.props.selectedItem);
     }
 
     prevItem = () => {
-        console.log(this.props);
-        
-        console.log(this.props.selectedIndex);
-        
         this.props.prevItem(this.props.selectedIndex);
     }
 
@@ -28,49 +18,71 @@ class ItemDetails extends Component {
         this.props.nextItem(this.props.selectedIndex);
     }
 
+    foundItem = (item) => {
+        console.log(item.id);
+            
+        let db = firebase.firestore();
+        let ref = db.collection('items').doc(item.id.toString());
+        return ref.update({found: 1});
+    }
+    
     render() {
         const { selectedItem, open, selectedIndex, items } = this.props;
-        console.log(this.props.items);
         let output = JSON.parse(JSON.stringify(items[selectedIndex]));
+        //console.log(output.dateLostOrFound.seconds);
+        //const date = new Date(output.dateLostOrFound.seconds * 1000).toISOString().substr(11,8);
+        const date = new Date(output.dateLostOrFound.seconds * 1000).toString();
+        console.log(date);
+        //const date = 0;
+
         if (output !== null && typeof(output.imageUrl) !== 'undefined') {
             return (
                 <Modal onClose={this.handleClose} open={open}>
-                    <Modal.Header className="modal-title"> { output.name } </Modal.Header>
+                    <Modal.Header className="modal-title"> { output.fullName } </Modal.Header>
                     <Modal.Content image scrolling className="modal-content">
                         <Modal.Description className="modal-description">
                             <p className="subcategory"> Category: </p>
-                            <p className="details"> { output.type } </p>
+                            <p className="details"> { output.category } </p>
                             <p className="subcategory"> Brand: </p>
                             <p className="details"> { output.brand } </p> 
-                            <p className="subcategory"> Color: </p>
-                            <p className="details"> { output.color } </p>
+                            <p className="subcategory"> Date: </p>
+                            <p className="details"> { date } </p>
                             <p className="subcategory"> Description: </p>
                             <p className="details"> { output.description } </p>
+                            <p className="subcategory"> Location: </p>
+                            <p className="details"> { output.location } </p>
                             <p className="subcategory"> Images: </p>
                             { output.imageUrl.map(img => <Image size="small" src = {img} style={{ marginBottom: '50px'}} href={img}/>) }
-                            <a className="prev-modal" onClick={this.prevItem}> &#10094; </a>
-                            <a className="next-modal" onClick={this.nextItem}> &#10095; </a>
-                        </Modal.Description>
+                            <p className="subcategory"> Contact: </p>
+                            <p className="details"> Phone Number: { output.description } </p>
+                            <p className="details"> Email: { output.email } </p>
+                            <Button className="button-found" onClick={ () => this.foundItem(output) }> FOUND </Button>
+
+                      </Modal.Description>
                     </Modal.Content>
                 </Modal>
             )
         } else if (output !== null) {
             return (
-                <Modal onClose={this.handleClose} open={open}>
-                    <Modal.Header className="modal-title"> { output.name } </Modal.Header>
+                <Modal closeIcon onClose={this.handleClose} open={open} >
+                    <Modal.Header className="modal-title"> { output.fullName } </Modal.Header>
                     <Modal.Content image scrolling className="modal-content">
                         <Modal.Description className="modal-description">
                             <p className="subcategory"> Category: </p>
-                            <p className="details"> { output.type } </p>
+                            <p className="details"> { output.category } </p>
                             <p className="subcategory"> Brand: </p>
                             <p className="details"> { output.brand } </p> 
-                            <p className="subcategory"> Color: </p>
-                            <p className="details"> { output.color } </p>
+                            <p className="subcategory"> Date: </p>
+                            <p className="details"> { date } </p>
                             <p className="subcategory"> Description: </p>
                             <p className="details"> { output.description } </p>
-                            <a className="prev-modal" onClick={this.prevItem}> &#10094; </a>
-                            <a className="next-modal" onClick={this.nextItem}> &#10095; </a>
-                        </Modal.Description>
+                            <p className="subcategory"> Location: </p>
+                            <p className="details"> { output.location } </p>
+                            <p className="subcategory"> Contact: </p>
+                            <p className="details"> Phone Number: { output.phoneNumber } </p>
+                            <p className="details"> Email: { output.email } </p>
+                            <Button className="button-found" onClick={ () => this.foundItem(output) }> FOUND </Button>
+                            </Modal.Description>
                     </Modal.Content>
                 </Modal>
             )

@@ -19,7 +19,7 @@ $color-off-white: #f1f1f1;
 // Heights
 $height-header: 60px;
 $height-main: 1000px;
-$height-main-desktop: 800px;
+$height-main-desktop: 900px;
 $height-post: 600px;
 
 // Widths
@@ -166,19 +166,19 @@ body {
     padding-top: $height-header;
 }
 
+.headers + .items {
+    padding-top: $height-header;
+}
+
 .sidebar + .items {
     padding-top: $height-header;
 }
 
 .items {
     @include for-size(desktop-up) {
-        padding-left: 50px;
-        padding-right: 50px;
         height: $height-main-desktop;
     }
     @include for-size(desktop-22-up) {
-        padding-left: 20px;
-        padding-right: 20px;
         height: $height-main;
     }
     font-size: 15px;
@@ -229,14 +229,16 @@ body {
     width: 100%;
     background-color: $color-off-white;
     @include for-size(desktop-up) {
-        padding-right: 25px;
+        padding-top: 25px;
+        padding-left: 60px;
     }
     @include for-size(desktop-22-up) {
-        padding-right: 0px;
+        padding-top: 25px;
+        padding-left: 80px;
     }
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    display: grid !important;
+    grid-template-rows: 5% 95%;
+
 }
 
 .grid {
@@ -288,7 +290,8 @@ body {
 .prev, .next {
     font-size: $font-size-lg;
     transition: 0.5s ease;
-    position: absolute;
+    top: 50%;
+    position: fixed;
     color: $color-black;
 }
 
@@ -306,4 +309,8 @@ body {
 .next {
     right: 0;
     margin-right: 1.5%;
+}
+
+.item-list {
+    width: 90%;
 }
