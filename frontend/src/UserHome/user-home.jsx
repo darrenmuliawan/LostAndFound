@@ -85,7 +85,6 @@ class UserHome extends Component {
 		        	this.setState({foundItems: foundItems});
 				}
 		    })
-		    console.log(user.email);
 		});
     }
 
@@ -95,12 +94,11 @@ class UserHome extends Component {
     }
 
 	render() {
-				console.log(this.state.user);
+		console.log(this.state.user);
 				
         return (
             <div className="sections">
-							<NavBar user={this.state.user}/>
-
+				<NavBar user={this.state.user}/>
 
                 <div className="section content-wrapper">
              		<div className="items lost">
@@ -134,11 +132,11 @@ class UserHome extends Component {
 				        <ScrollView ref={scroller => this._scroller = scroller}>
 				          <div className="scroller">
 				            { this.state.foundItems.length ?
-				            	this.state.foundItems.map(({ name }) => {
+				            	this.state.foundItems.map(({ brand, description }) => {
 					              return (
-					                <ScrollElement name={name}>
+					                <ScrollElement>
 					                  <div className="item">
-					                    {name}
+					                    {brand} - {description}
 					                  </div>
 					                </ScrollElement>
 					              );
