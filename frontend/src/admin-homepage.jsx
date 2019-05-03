@@ -55,8 +55,6 @@ class AdminHome extends Component {
                 phoneNumber: '',
                 file: null,
             }],
-            numFound: 0,
-            numLost: 0,
             filter: [],
             open: false,
         }
@@ -100,7 +98,6 @@ class AdminHome extends Component {
                              copy.id = i.id;
                              this.setState(prevState => ({
                                  items: [...prevState.items, copy],
-                                 numLost: prevState.numLost + 1,
                              }));
                              index++;
                              MAX_ITEM_LOST = index;
@@ -110,7 +107,6 @@ class AdminHome extends Component {
                             copy.id = i.id;
                             this.setState(prevState => ({
                                 foundItems: [...prevState.foundItems, copy],
-                                numFound: prevState.numFound + 1,
                             }));
                             index2++;
                          }
@@ -244,7 +240,6 @@ class AdminHome extends Component {
                         items = { output }
                         allItems = { this.state.items }
                         filter = { this.state.filter }
-                        numLost = { this.state.numLost }
                     />
                 </div>
                 <div className="">
@@ -252,7 +247,6 @@ class AdminHome extends Component {
                         items = { foundOutput }
                         allItems = { this.state.foundItems }
                         filter = { this.state.filter }
-                        numFound = { this.state.numFound }
                     />
                 </div>
             </div>

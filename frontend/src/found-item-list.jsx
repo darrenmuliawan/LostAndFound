@@ -86,7 +86,7 @@ class FoundItemsList extends Component {
         return (
             <div className="containers">
                 <div>
-                    <p className="list-title"> List of Found Items: (Found { this.props.numFound } items) </p>
+                    <p className="list-title"> List of Found Items: (Found { output.length } items) </p>
                 </div>
                 <List selection divided relaxed className="item-list" style={{maxHeight: 200, overflow: 'auto'}}>
                     {output.map(item => 
