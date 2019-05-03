@@ -8,6 +8,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Sidebar from './sidebar.jsx'
 import ItemsGrid from './items-grid.jsx'
+import firebase from "firebase/app";
+
+let MAX_PAGE = 0;
 
 class AdminHome extends Component {
     constructor() {
@@ -16,14 +19,51 @@ class AdminHome extends Component {
         this.state = {
             visible: false,
             visible2: false,
+            items: [{
+                index: 0,
+                brand: '',
+                category: '',
+                dateLostOrFound: '',
+                description: '',
+                email: '',
+                fullName: '',
+                location: '',
+                lostOrFound: '',
+                phoneNumber: '',
+                file: null,
+            }],
+            page: 0,
             filter: []
         }
     }
 
+    componentDidMount() {
+        let db = firebase.firestore();
+        let index = 0;
+
+        db.collection("items")
+        .get()
+        .then((item) => {            
+            item.forEach((i) => {
+                if (i.data().found == 0) {
+                    console.log(i);
+                    
+                    console.log(i.data());
+                    
+                    let copy = i.data();
+                    copy.index = index;
+                    //i.data().index = index;
+                    this.setState(prevState => ({
+                        items: [...prevState.items, copy]
+                    }));
+                    index++;
+                    MAX_PAGE = Math.ceil(index / 16);
+                }  
+            })
+        })
+    }
+
     openSidebar = () => { 
-        console.log(this.state.visible);
-        console.log(this.state.visible2);
-        
         
         if (this.state.visible2 == false && this.state.visible == true) {
             this.setState({
@@ -36,7 +76,6 @@ class AdminHome extends Component {
                 visible2: !this.state.visible2
             })
         }
-        console.log(this.state.visible);  
     }
 
     handleHide = () => {
@@ -45,9 +84,7 @@ class AdminHome extends Component {
         })
     }
 
-    closeSidebar = () => {
-        console.log("CLOSE SIDEBAR");
-        
+    closeSidebar = () => {        
         this.setState({
             visible: false
         })
@@ -55,16 +92,45 @@ class AdminHome extends Component {
 
     applyFilter = (filter) => {
         if (this.state.filter.length !== filter.length) {
-            console.log('This is in the homepage', filter);
             this.setState({
                 filter: filter
             })
         }
     }
 
+    prevPage = () => {
+        if (this.state.page > 0) {
+            this.setState(prevState => ({
+                page: prevState.page - 1,
+            }))
+        }
+    }
+
+    nextPage = () => {
+        if (this.state.page == MAX_PAGE - 1) {
+            this.setState({
+                page: 0,
+            })
+        } else {
+            this.setState(prevState => ({
+                page: prevState.page + 1,
+            }))
+        }
+    }
+    
     render() {
-        console.log(this.props.location.state);
-        
+        let i;
+        let output = this.state.items;
+
+        output = output.filter( res => {
+            return res.brand !== "";
+        });
+
+        if (output.length > 16) {
+            output = output.slice(0 + (this.state.page * 16), 16 + (this.state.page * 16));
+        }
+        console.log(this.state.items);
+                
         return (
             <div className="sections">
                 <div className="section headers">
@@ -111,9 +177,13 @@ class AdminHome extends Component {
 
                 <div className="section items">
                     <ItemsGrid
+                        items = { output }
+                        allItems = { this.state.items }
                         filter = { this.state.filter }
                     />
                 </div>
+                <a className="prev" onClick={this.prevPage}> &#10094; </a>
+                <a className="next" onClick={this.nextPage}> &#10095; </a>
             </div>
         )
     }

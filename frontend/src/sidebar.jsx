@@ -62,17 +62,18 @@ class HorizontalSidebar extends Component {
                 <div className="categories-text">
                     <p> Choose categories: </p>
                 </div>
-                <Checkbox label='Electronic' onChange={ this.handleCheck('Electronic') }/>
-                <Checkbox label='ID' onChange={ this.handleCheck('ID') }/> 
-                <Checkbox label='Books' onChange={ this.handleCheck('Books') }/>
+                <Checkbox label='Book' onChange={ this.handleCheck('Book') }/>
+                <Checkbox label='Bag/Purse/Wallet' onChange={ this.handleCheck('Bag/Purse/Wallet') }/>
+                <Checkbox label='Clothing/Shoes' onChange={ this.handleCheck('Clothing') }/>
+                <Checkbox label='Credit/Debit Card' onChange={ this.handleCheck('Card') }/>
+                <Checkbox label='Cell Phone' onChange={ this.handleCheck('Cell Phone') }/>
+                <Checkbox label="Driver's License/ID" onChange={ this.handleCheck('License') }/>
+                <Checkbox label='Electronics' onChange={ this.handleCheck('Electronics') }/>
+                <Checkbox label='Glasses' onChange={ this.handleCheck('Glasses') }/>
+                <Checkbox label='Jewelry' onChange={ this.handleCheck('Jewelry') }/>
                 <Checkbox label='Keys' onChange={ this.handleCheck('Keys') }/>
-                <Checkbox label='Stationaries' onChange={ this.handleCheck('Stationaries') }/>
-                <Checkbox label='Clothes' onChange={ this.handleCheck('Clothes') }/>
+                <Checkbox label='Laptop' onChange={ this.handleCheck('Laptop') }/>
                 <Checkbox label='Other' onChange={ this.handleCheck('Other') }/>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
             </Sidebar>
         )
     }

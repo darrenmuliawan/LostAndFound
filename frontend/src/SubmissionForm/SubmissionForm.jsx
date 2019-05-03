@@ -9,18 +9,18 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FormHome } from "./SubmissionForm.module.scss";
 
 const options = [
-  { key: "b", text: "Book", value: "book" },
-  { key: "bpw", text: "Bag/Purse/Wallet", value: "bag/purse/wallet" },
-  { key: "c", text: "Clothing/Shoes", value: "clothing" },
-  { key: "cd", text: "Credit/Debit Card", value: "card" },
-  { key: "cp", text: "Cell Phone", value: "cell phone" },
-  { key: "d", text: "Driver's License/ID", value: "license" },
-  { key: "e", text: "Electronics", value: "electronics" },
-  { key: "g", text: "Glasses", value: "glasses" },
-  { key: "j", text: "Jewelry", value: "jewelry" },
-  { key: "k", text: "Keys", value: "keys" },
-  { key: "l", text: "Laptop", value: "laptop" },
-  { key: "o", text: "Other", value: "other" }
+  { key: "b", text: "Book", value: "Book" },
+  { key: "bpw", text: "Bag/Purse/Wallet", value: "Bag/Purse/Wallet" },
+  { key: "c", text: "Clothing/Shoes", value: "Clothing" },
+  { key: "cd", text: "Credit/Debit Card", value: "Card" },
+  { key: "cp", text: "Cell Phone", value: "Cell Phone" },
+  { key: "d", text: "Driver's License/ID", value: "License" },
+  { key: "e", text: "Electronics", value: "Electronics" },
+  { key: "g", text: "Glasses", value: "Glasses" },
+  { key: "j", text: "Jewelry", value: "Jewelry" },
+  { key: "k", text: "Keys", value: "Keys" },
+  { key: "l", text: "Laptop", value: "Laptop" },
+  { key: "o", text: "Other", value: "Other" }
 ];
 
 // var config = {
@@ -98,13 +98,14 @@ class SubmissionForm extends Component {
       .add({
         brand: data.brand,
         category: data.category,
-        dataeLostOrFound: data.dateLostOrFound,
+        dateLostOrFound: data.dateLostOrFound,
         description: data.description,
         email: data.email,
         fullName: `${data.firstName} ${data.lastName}`,
         location: data.location,
         lostOrFound: data.lostOrFound,
-        phoneNumber: data.phoneNumber
+        phoneNumber: data.phoneNumber,
+        found: 0
       })
       .then(docRef => console.log(docRef))
       .catch(err => console.log(err));
