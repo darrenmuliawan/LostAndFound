@@ -9,12 +9,15 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import Sidebar from './sidebar.jsx'
 import ItemsGrid from './items-grid.jsx'
 import firebase from "firebase/app";
-
+import NavBar from './nav-bar/nav-bar.jsx'
+import 'firebase/auth';
 let MAX_PAGE = 0;
 
 class AdminHome extends Component {
     constructor() {
         super();
+
+        this.auth = firebase.auth();
 
         this.state = {
             visible: false,
@@ -41,28 +44,50 @@ class AdminHome extends Component {
     componentDidMount() {
         let db = firebase.firestore();
         let index = 0;
+        this.auth.onAuthStateChanged(user => {
+          if(user){
+            this.setState({ user }) ;
+            let db = firebase.firestore();
+            db.collection("userRoles")
+             .doc(user.uid)
+             .get()
+             .then((item) => {
+               let data = item.data();
+               if(data && data.isAdmin == true){
+                 user.isAdmin = data.isAdmin;
+                 this.setState({ user }) ;
+                 db.collection("items")
+                 .get()
+                 .then((item) => {
+                     item.forEach((i) => {
+                         if (i.data().found == 0) {
+                             let copy = i.data();
+                             copy.index = index;
+                             copy.id = i.id;
+                             //i.data().index = index;
+                             this.setState(prevState => ({
+                                 items: [...prevState.items, copy]
+                             }));
+                             index++;
+                             MAX_PAGE = Math.ceil(index / 16);
+                         }
+                     })
+                 })
+               }else{
+                 this.props.router.push('/');
+               }
+               console.log(user);
+             })
+          }else{
+             this.setState({ user: null });
+          }
+        });
 
-        db.collection("items")
-        .get()
-        .then((item) => {            
-            item.forEach((i) => {
-                if (i.data().found == 0) {
-                    let copy = i.data();
-                    copy.index = index;
-                    copy.id = i.id;
-                    //i.data().index = index;
-                    this.setState(prevState => ({
-                        items: [...prevState.items, copy]
-                    }));
-                    index++;
-                    MAX_PAGE = Math.ceil(index / 16);
-                }  
-            })
-        })
     }
 
-    openSidebar = () => { 
-        
+
+    openSidebar = () => {
+
         if (this.state.visible2 == false && this.state.visible == true) {
             this.setState({
                 visible: true,
@@ -82,7 +107,7 @@ class AdminHome extends Component {
         })
     }
 
-    closeSidebar = () => {        
+    closeSidebar = () => {
         this.setState({
             visible: false
         })
@@ -115,7 +140,7 @@ class AdminHome extends Component {
             }))
         }
     }
-    
+
     render() {
         let i;
         let output = this.state.items;
@@ -128,50 +153,78 @@ class AdminHome extends Component {
             output = output.slice(0 + (this.state.page * 16), 16 + (this.state.page * 16));
         }
         console.log(this.state.items);
-                
+
+        let dashboardButton;
+        let adminButton;
+        if(this.state && this.state.user){
+          dashboardButton = <Link to="/user">
+                                <p className="username">Dashboard</p>
+                            </Link>;
+        }
+        if(this.state.user && this.state.user.isAdmin){
+          adminButton = <Link to={{
+                          pathname: "/admin",
+                          state: {
+                            id: this.state.user.uid,
+                            name: this.state.user.displayName,
+                            photoURL: this.state.user.photoURL,
+                            email: this.state.user.email,
+                          }
+                        }}> <p className="username">Admin</p> </Link>;
+        }
+
         return (
             <div className="sections">
-                <div className="section headers">
-                    <div className="header-icon">
-                        <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
-                    </div>
-                    <div className="header-logo">
-                        <p className="logo"> Lost and Found </p>
-                    </div>
-                        
-                    <div className="header-user">
-                        <Link to={{
-                            pathname: "/admin/adminusername",
-                            state: {
-                                id: this.props.location.state.id,
-                                name: this.props.location.state.name,
-                                photoURL: this.props.location.state.photoURL,
-                                email: this.props.location.state.email,
-                            }
-                        }}>
-                            <img className="avatarImg" src={this.props.location.state.photoURL}/>
-                        </Link>
-                        <Link to={{
-                            pathname: "/admin/adminusername",
-                            state: {
-                                id: this.props.location.state.id,
-                                name: this.props.location.state.name,
-                                photoURL: this.props.location.state.photoURL,
-                                email: this.props.location.state.email,
-                            }
-                        }}>
-                            <p className="username"> {this.props.location.state.name} </p>
-                        </Link>
-                    </div>
-              </div>
-                
+
+              					<div className="section headers">
+              							<div className="header-icon" >
+              									<FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
+              							</div>
+              							<div className="header-logo">
+              								<Link to="/">
+              										<p className="username">Home</p>
+              								</Link>
+              								{ dashboardButton	}
+              								{ adminButton	}
+              							</div>
+              							{ this.state.user == null ?
+              										 <div className="header-user">
+              										 </div>
+              										 :
+              										 <div className="header-user">
+              											 <Link to={{
+              												 pathname: "/admin/adminusername",
+              												 state: {
+              													 id: this.state.user.uid,
+              													 name: this.state.user.displayName,
+              													 photoURL: this.state.user.photoURL,
+              													 email: this.state.user.email,
+              												 }
+              											 }}>
+              												 <img className="avatarImg" src={this.state.user.photoURL}/>
+              											 </Link>
+              											 <Link to={{
+              												 pathname: "/admin/adminusername",
+              												 state: {
+              													 id: this.state.user.uid,
+              													 name: this.state.user.displayName,
+              													 photoURL: this.state.user.photoURL,
+              													 email: this.state.user.email,
+              												 }
+              											 }}>
+              													 <p className="username"> {this.state.user.displayName} </p>
+              											 </Link>
+              										 </div>
+              									 }
+              					</div>
+
                 <Sidebar
                     filter = { this.applyFilter }
                     visible = { this.state.visible }
                     visible2 = { this.state.visible2 }
                     onHide = { this.handleHide }
                 />
-                
+
 
                 <div className="section items">
                     <ItemsGrid

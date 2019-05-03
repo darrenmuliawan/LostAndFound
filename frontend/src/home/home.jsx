@@ -8,13 +8,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button} from 'semantic-ui-react'
 import Login from '../login/login.jsx'
-import FirebaseContext from '../context.jsx'
+import NavBar from '../nav-bar/nav-bar.jsx'
 
 import treasureMapImg from './treasure-map.png';
 import foundImg from './found.png';
 
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
+import firebase from 'firebase';
 
 class Home extends Component {
     constructor() {
@@ -22,8 +24,6 @@ class Home extends Component {
 
         this.state = {
           user: {
-            displayName: '',
-            photoURL: '',
           },
         };
 
@@ -33,9 +33,24 @@ class Home extends Component {
 
     componentDidMount() {
       this.auth.onAuthStateChanged(user => {
-        user
-          ? this.setState({ user })
-          : this.setState({ user: null });
+        if(user){
+  				this.setState({ user }) ;
+  				let db = firebase.firestore();
+  				db.collection("userRoles")
+  				 .doc(user.uid)
+  				 .get()
+  				 .then((item) => {
+  					 let data = item.data();
+  					 if(data && data.isAdmin == true){
+  						 user.isAdmin = data.isAdmin;
+  						 this.setState({ user }) ;
+
+  					 }
+  					 console.log(user);
+  				 })
+  			}else{
+  				 this.setState({ user: null });
+  			}
       });
     }
 
@@ -47,60 +62,10 @@ class Home extends Component {
 
     render() {
         console.log(this.state.user);
-        
+
         return (
           <div className="sections">
-              <div className="section headers">
-                  <div className="header-icon">
-                      <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
-                  </div>
-                  <div className="header-logo">
-                    { this.state.user == null ? 
-                        <p className="logo"> Lost and Found </p> 
-                        :
-                        <Link to={{
-                          pathname: "/admin",
-                          state: {
-                            id: this.state.user.uid,
-                            name: this.state.user.displayName,
-                            photoURL: this.state.user.photoURL,
-                            email: this.state.user.email,
-                          }
-                        }}>
-                          <p className="logo"> Lost and Found </p>
-                        </Link>
-                    }
-                  </div>
-                    { this.state.user == null ?
-                        <div className="header-user">
-                        </div>
-                        :
-                        <div className="header-user">
-                          <Link to={{
-                            pathname: "/admin/adminusername",
-                            state: {
-                              id: this.state.user.uid,
-                              name: this.state.user.displayName,
-                              photoURL: this.state.user.photoURL,
-                              email: this.state.user.email,
-                            }
-                          }}>
-                            <img className="avatarImg" src={this.state.user.photoURL}/>
-                          </Link>
-                          <Link to={{
-                            pathname: "/admin/adminusername",
-                            state: {
-                              id: this.state.user.uid,
-                              name: this.state.user.displayName,
-                              photoURL: this.state.user.photoURL,
-                              email: this.state.user.email,
-                            }
-                          }}>
-                              <p className="username"> {this.state.user.displayName} </p>
-                          </Link>
-                        </div>
-                      }
-              </div>
+              <NavBar user={this.state.user}/>
 
               <div className="section content-wrapper">
               <div>
