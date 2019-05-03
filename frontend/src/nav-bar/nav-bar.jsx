@@ -43,9 +43,10 @@ class NavBar extends Component {
                         }}> <p className="username">Admin</p> </Link>;
 				}
 
+
         return (
 					<div className="section headers">
-							<div className="header-icon">
+							<div className="header-icon hidden" >
 									<FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
 							</div>
 							<div className="header-logo">

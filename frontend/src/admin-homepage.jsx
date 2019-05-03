@@ -154,9 +154,69 @@ class AdminHome extends Component {
         }
         console.log(this.state.items);
 
+        let dashboardButton;
+        let adminButton;
+        if(this.state && this.state.user){
+          dashboardButton = <Link to="/user">
+                                <p className="username">Dashboard</p>
+                            </Link>;
+        }
+        if(this.state.user && this.state.user.isAdmin){
+          adminButton = <Link to={{
+                          pathname: "/admin",
+                          state: {
+                            id: this.state.user.uid,
+                            name: this.state.user.displayName,
+                            photoURL: this.state.user.photoURL,
+                            email: this.state.user.email,
+                          }
+                        }}> <p className="username">Admin</p> </Link>;
+        }
+
         return (
             <div className="sections">
-              <NavBar user={this.state.user}/>
+
+              					<div className="section headers">
+              							<div className="header-icon" >
+              									<FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
+              							</div>
+              							<div className="header-logo">
+              								<Link to="/">
+              										<p className="username">Home</p>
+              								</Link>
+              								{ dashboardButton	}
+              								{ adminButton	}
+              							</div>
+              							{ this.state.user == null ?
+              										 <div className="header-user">
+              										 </div>
+              										 :
+              										 <div className="header-user">
+              											 <Link to={{
+              												 pathname: "/admin/adminusername",
+              												 state: {
+              													 id: this.state.user.uid,
+              													 name: this.state.user.displayName,
+              													 photoURL: this.state.user.photoURL,
+              													 email: this.state.user.email,
+              												 }
+              											 }}>
+              												 <img className="avatarImg" src={this.state.user.photoURL}/>
+              											 </Link>
+              											 <Link to={{
+              												 pathname: "/admin/adminusername",
+              												 state: {
+              													 id: this.state.user.uid,
+              													 name: this.state.user.displayName,
+              													 photoURL: this.state.user.photoURL,
+              													 email: this.state.user.email,
+              												 }
+              											 }}>
+              													 <p className="username"> {this.state.user.displayName} </p>
+              											 </Link>
+              										 </div>
+              									 }
+              					</div>
 
                 <Sidebar
                     filter = { this.applyFilter }

@@ -23,7 +23,10 @@ $height-post: 600px;
     justify-content: flex-start;
     align-items: center;
     padding-left: 20px;
-    visibility: hidden;
+}
+
+.hidden{
+  visibility: hidden;
 }
 
 .header-logo {
@@ -44,7 +47,7 @@ $height-post: 600px;
 }
 
 .headers + .content-wrapper {
-    padding-top: $height-header;
+    padding-top: 110px;
 }
 
 .content-wrapper {
