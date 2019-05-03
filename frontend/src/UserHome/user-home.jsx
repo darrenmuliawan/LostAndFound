@@ -15,7 +15,7 @@ import { Redirect } from 'react-router'
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import { firebase } from '../firebase.jsx';
+import firebase from 'firebase';
 
 class UserHome extends Component {
 
@@ -24,6 +24,8 @@ class UserHome extends Component {
 
         this.state = {
           user: null,
+          lostItems: [],
+          foundItems: []
         };
 
         this.auth = app.auth();
@@ -31,11 +33,41 @@ class UserHome extends Component {
       }
 
     componentDidMount() {
-      this.auth.onAuthStateChanged(user => {
-        user
-          ? this.setState({ user })
-          : this.setState({ user: null });
-      });
+		this.auth.onAuthStateChanged(user => {
+			user ? this.setState({ user }) : this.setState({ user: null });
+			let db = firebase.firestore();
+		    let index = 0;
+		    db.collection("items")
+		    .where("email", "==", user.email)
+		    .where("lostOrFound", "==", "lost")
+		    .get()
+		    .then((item) => {
+		    	let lostItems = [];
+		        item.forEach((i) => {
+		            let copy = i.data();
+		            lostItems.push(copy);
+		        })
+		        if( this.state.lostItems.length != lostItems.length) {
+		        	this.setState({lostItems: lostItems});
+				}
+		    })
+
+		    db.collection("items")
+		    .where("email", "==", user.email)
+		    .where("lostOrFound", "==", "found")
+		    .get()
+		    .then((item) => {
+		    	let foundItems = [];
+		        item.forEach((i) => {
+		            let copy = i.data();
+		            foundItems.push(copy);
+		        })
+		        if( this.state.foundItems.length != foundItems.length) {
+		        	this.setState({foundItems: foundItems});
+				}
+		    })
+		    console.log(user.email);
+		});
     }
 
     handleChange(e) {
@@ -47,21 +79,9 @@ class UserHome extends Component {
     	this._scroller.scrollTo(name);
   	}
 
-  	getUserLostItems() {
-  		var itemRef = firebase.database().ref('items');
-		var itemQuery = itemRef.orderByChild("email").equalTo("darrenm2@illinois.edu");
-		itemQuery.on("value", function(snapshot) {
-		  console.log(snapshot.val());
-		  snapshot.forEach(function(child) {
-		    console.log(child.brand);
-		  });
-		});
-  	}
-
 	render() {
-		let dummyItemNames = [{name: "Textbook"}, {name: "Laptop"}, {name: "iPhone"}, {name: "Keys"}, {name: "Notebook"}, {name: "Dog"}, {name: "Grandma"}, {name: "My GPA"}]
-
-		this.getUserLostItems();
+		let dummyItemNames = [{name: "Textbook"}, {name: "Laptop"}, {name: "iPhone"}, {name: "Keys"}, 
+							  {name: "Notebook"}, {name: "Dog"}, {name: "Grandma"}, {name: "My GPA"}]
 
         return (
             <div className="sections">
@@ -96,18 +116,21 @@ class UserHome extends Component {
                 <div className="section content-wrapper">
              		<div className="items lost">
              			<h2>Lost Items</h2>
-
 	                	<ScrollView ref={scroller => this._scroller = scroller}>
 				          <div className="scroller">
-				            {dummyItemNames.map(({ name }) => {
-				              return (
-				                <ScrollElement name={name}>
-				                  <div className="item">
-				                    {name}
-				                  </div>
-				                </ScrollElement>
-				              );
-				            })}
+				           	{ this.state.lostItems.length ?
+					            this.state.lostItems.map(({ brand, description }) => {
+					              return (
+					                <ScrollElement>
+					                  <div className="item">
+					                    {brand} - {description}
+					                  </div>
+					                </ScrollElement>
+					              );
+				            	})
+					            :
+					            <span>0 items found!</span>
+				            }
 				          </div>
 				        </ScrollView>
 				    </div>
@@ -117,15 +140,19 @@ class UserHome extends Component {
 
 				        <ScrollView ref={scroller => this._scroller = scroller}>
 				          <div className="scroller">
-				            {dummyItemNames.map(({ name }) => {
-				              return (
-				                <ScrollElement name={name}>
-				                  <div className="item">
-				                    {name}
-				                  </div>
-				                </ScrollElement>
-				              );
-				            })}
+				            { this.state.foundItems.length ?
+				            	this.state.foundItems.map(({ name }) => {
+					              return (
+					                <ScrollElement name={name}>
+					                  <div className="item">
+					                    {name}
+					                  </div>
+					                </ScrollElement>
+					              );
+					            })
+				            	:
+				            	<span>0 Items found!</span>
+				            }
 				          </div>
 				        </ScrollView>
 			        </div>
