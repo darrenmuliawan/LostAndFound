@@ -37,6 +37,10 @@ class App extends Component {
       app.initializeApp(config);
       this.auth = app.auth();
 
+      var t = 1556840708*1000;
+      console.log(t);
+      console.log(new Date(t));
+
     }
 
   componentDidMount() {
@@ -54,7 +58,7 @@ render() {
           <Route exact path="/admin" component={AdminHomepage}/>
           <Route exact path="/admin/adminusername" component={AdminDetails} />
           <Route exact path="/form" component={SubmissionForm} />
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={Home} isAuthed={false}/>
           <Route exact path="/user" component={UserHome}/>
         </Switch>
       </Router>
