@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AdminHomepage from './admin-homepage.jsx';
 import AdminDetails from './admin-details.jsx';
 import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'

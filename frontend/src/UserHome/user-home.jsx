@@ -8,7 +8,6 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button} from 'semantic-ui-react'
 import Login from '../login/login.jsx'
-import FirebaseContext from '../context.jsx'
 import ScrollView, { ScrollElement } from "./scroll.jsx";
 import { Redirect } from 'react-router'
 import NavBar from '../nav-bar/nav-bar.jsx'
@@ -46,7 +45,7 @@ class UserHome extends Component {
 					 if(data && data.isAdmin == true){
 						 user.isAdmin = data.isAdmin;
 						 this.setState({ user }) ;
-						 
+
 					 }
 					 console.log(user);
 				 })

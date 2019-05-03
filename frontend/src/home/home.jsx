@@ -9,7 +9,6 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button} from 'semantic-ui-react'
 import Login from '../login/login.jsx'
 import NavBar from '../nav-bar/nav-bar.jsx'
-import FirebaseContext from '../context.jsx'
 
 import treasureMapImg from './treasure-map.png';
 import foundImg from './found.png';
@@ -22,7 +21,8 @@ class Home extends Component {
         super();
 
         this.state = {
-          user: null,
+          user: {
+          },
         };
 
         this.auth = app.auth();
@@ -44,6 +44,8 @@ class Home extends Component {
 
 
     render() {
+        console.log(this.state.user);
+
         return (
           <div className="sections">
               <NavBar user={this.state.user}/>
