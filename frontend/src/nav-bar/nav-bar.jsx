@@ -24,9 +24,14 @@ class NavBar extends Component {
 
 
 	render() {
+				let dashboardButton;
 				let adminButton;
+				if(this.props && this.props.user){
+					dashboardButton = <Link to="/user">
+																<p className="username">Dashboard</p>
+														</Link>;
+				}
 				if(this.props && this.props.user && this.props.user.isAdmin){
-					console.log("ADMIN", this.props.user.isAdmin);
 					adminButton = <Link to={{
                           pathname: "/admin",
                           state: {
@@ -47,12 +52,10 @@ class NavBar extends Component {
 								<Link to="/">
 										<p className="username">Home</p>
 								</Link>
-								<Link to="/user">
-										<p className="username">Dashboard</p>
-								</Link>
+								{ dashboardButton	}
 								{ adminButton	}
 							</div>
-							{ this.state.user == null ?
+							{ this.props.user == null ?
 										 <div className="header-user">
 										 </div>
 										 :
@@ -60,24 +63,24 @@ class NavBar extends Component {
 											 <Link to={{
 												 pathname: "/admin/adminusername",
 												 state: {
-													 id: this.state.user.uid,
-													 name: this.state.user.displayName,
-													 photoURL: this.state.user.photoURL,
-													 email: this.state.user.email,
+													 id: this.props.user.uid,
+													 name: this.props.user.displayName,
+													 photoURL: this.props.user.photoURL,
+													 email: this.props.user.email,
 												 }
 											 }}>
-												 <img className="avatarImg" src={this.state.user.photoURL}/>
+												 <img className="avatarImg" src={this.props.user.photoURL}/>
 											 </Link>
 											 <Link to={{
 												 pathname: "/admin/adminusername",
 												 state: {
-													 id: this.state.user.uid,
-													 name: this.state.user.displayName,
-													 photoURL: this.state.user.photoURL,
-													 email: this.state.user.email,
+													 id: this.props.user.uid,
+													 name: this.props.user.displayName,
+													 photoURL: this.props.user.photoURL,
+													 email: this.props.user.email,
 												 }
 											 }}>
-													 <p className="username"> {this.state.user.displayName} </p>
+													 <p className="username"> {this.props.user.displayName} </p>
 											 </Link>
 										 </div>
 									 }

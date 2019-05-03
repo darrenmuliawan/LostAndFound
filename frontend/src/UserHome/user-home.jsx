@@ -11,6 +11,7 @@ import Login from '../login/login.jsx'
 import ScrollView, { ScrollElement } from "./scroll.jsx";
 import { Redirect } from 'react-router'
 import NavBar from '../nav-bar/nav-bar.jsx'
+import { browserHistory } from 'react-router'
 
 import app from 'firebase/app';
 import 'firebase/auth';
