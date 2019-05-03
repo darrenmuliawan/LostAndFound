@@ -3,6 +3,7 @@ import { Form, Message } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import LocationSearchInput from "./LocationSearchInput";
 import firebase from "firebase/app";
+import "firebase/storage";
 import "firebase/firestore";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,8 +23,6 @@ const options = [
   { key: "l", text: "Laptop", value: "Laptop" },
   { key: "o", text: "Other", value: "Other" }
 ];
-
-
 
 class SubmissionForm extends Component {
   constructor(props) {
@@ -73,7 +72,7 @@ class SubmissionForm extends Component {
     this.setState({ file: event.target.files[0] });
   }
 
-  submitHandler() {
+  async submitHandler() {
     const data = this.state;
     for (const key in data) {
       if (data[key] === "") {
@@ -83,6 +82,16 @@ class SubmissionForm extends Component {
         });
         return;
       }
+    }
+
+    let fileDownloadUrl = "";
+    const file = data.file;
+    if (file) {
+      const storageRef = firebase.storage().ref("images/" + file.name);
+      fileDownloadUrl = await storageRef
+        .put(file)
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .catch(err => console.log(err));
     }
 
     const db = firebase.firestore();
@@ -97,6 +106,7 @@ class SubmissionForm extends Component {
         location: data.location,
         lostOrFound: data.lostOrFound,
         phoneNumber: data.phoneNumber,
+        file: fileDownloadUrl,
         found: 0
       })
       .then(docRef => console.log(docRef))

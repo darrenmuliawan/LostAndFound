@@ -122,6 +122,10 @@ class UserHome extends Component {
 				            }
 				          </div>
 				        </ScrollView>
+
+				        <Link to="/form" className="submissionBtn">
+						    Add a lost item!
+						</Link>
 				    </div>
 
 				    <div className="items found">
@@ -144,6 +148,10 @@ class UserHome extends Component {
 				            }
 				          </div>
 				        </ScrollView>
+
+				        <Link to="/form" className="submissionBtn">
+						    Add a found item!
+						</Link>
 			        </div>
                 </div>
             </div>
