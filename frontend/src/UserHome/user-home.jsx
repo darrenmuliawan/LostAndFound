@@ -75,13 +75,7 @@ class UserHome extends Component {
       console.log(this.state);
     }
 
-    scrollTo(name) {
-    	this._scroller.scrollTo(name);
-  	}
-
 	render() {
-		let dummyItemNames = [{name: "Textbook"}, {name: "Laptop"}, {name: "iPhone"}, {name: "Keys"}, 
-							  {name: "Notebook"}, {name: "Dog"}, {name: "Grandma"}, {name: "My GPA"}]
 
         return (
             <div className="sections">
@@ -161,7 +155,6 @@ class UserHome extends Component {
         )
     }
 }
-
 
 
 export default UserHome;
