@@ -57,7 +57,7 @@ class UserHome extends Component {
 			let db = firebase.firestore();
 		    let index = 0;
 		    db.collection("items")
-		    .where("email", "==", "ahschwa2@illinois.edu")
+		    .where("email", "==", user.email)
 		    .where("lostOrFound", "==", "lost")
 		    .get()
 		    .then((item) => {
@@ -72,7 +72,7 @@ class UserHome extends Component {
 		    })
 
 		    db.collection("items")
-		    .where("email", "==", "ahschwa2@illinois.edu")
+		    .where("email", "==", user.email)
 		    .where("lostOrFound", "==", "found")
 		    .get()
 		    .then((item) => {
@@ -98,8 +98,7 @@ class UserHome extends Component {
 				
         return (
             <div className="sections">
-							<NavBar user={this.state.user}/>
-
+				<NavBar user={this.state.user}/>
 
                 <div className="section content-wrapper">
              		<div className="items lost">
