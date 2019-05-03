@@ -1,79 +1,19 @@
-// Colors
-$color-white: #FFF;
-$color-purple: #511EF4;
-$color-orange: #F4511E;
-$color-blue: #1EC1F4;
-$color-green: #1EF451;
-$color-pink: #F41EC1;
-$color-yellow: #F4BC1E;
-$color-cyan: #1EF4BC;
-$color-dark-blue: #1b417c;
-$color-darker-blue: #031c42;
-$color-black: #000000;
-$color-grey: #464951;
-$color-fb: #05314f;
-$color-ig: #4f034b;
-$color-linkedin: #01426d;
-$color-off-white: #f1f1f1;
-
-// Heights
-$height-header: 60px;
-$height-main: 1000px;
-$height-main-desktop: 800px;
-
-// Widths
-$width-sidebar: 300px;
-
-// Fonts
-$font-family: 'Quicksand', sans-serif;
-$font-home: 'Source Code Pro';
-$font-icon: 'Font Awesome 5 Free';
-$font-weight: 700;
-$font-size: 24px;
-$font-size-sm: 12px;
-$font-size-sm2: 18px;
-$font-size-movie-title: 20px;
-$font-size-modal-text: 20px;
-$font-size-med: 28px;
-$font-size-lg: 36px;
-$font-size-xl: 60px;
-$font-size-xxl: 80px;
-$menu-font-size: 18px;
-
-
-.headers {
-    position: fixed;
-    display: grid;
-    grid-template-columns: 25% 50% 25%;
-    height: $height-header;
-    background-color: $color-darker-blue;
-    z-index: 10;
+.button-wrapper{
+  margin-top: 60px;
 }
 
-.header-icon {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 20px;
+
+.googleButton{
+  width: 225px;
+  background-color: #3367d6;
+  border-radius: 3px;
+  padding: 1px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.18), 1px 3px 3px rgba(0,0,0,0.15);
+  -webkit-transition: ease-in-out 0.150s; /* Safari */
+  transition: ease-in-out 0.150s;
 }
 
-.header-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.logo:hover {
-    cursor: pointer;
-}
-
-.header-user {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 20px;
-}
-
-.headers + .items {
-    padding-top: $height-header;
+.googleButton:hover{
+  width: 235px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.25), 3px 5px 5px rgba(0,0,0,0.20);
 }

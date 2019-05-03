@@ -48,7 +48,7 @@ class Login extends Component {
         console.log(user);
         if (user) {
           this.setState({ user });
-          
+
         } else {
           this.setState({ user: null });
         }
@@ -78,7 +78,7 @@ class Login extends Component {
 
           if(this.state.user){
             return(
-              <div >
+              <div className="button-wrapper">
                 <Button onClick = { this.handleGoogleLogout }>logout</Button>
 
               </div>

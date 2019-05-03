@@ -55,16 +55,48 @@ $height-post: 600px;
     text-align: center;
 }
 
+.cards-wrapper{
 
-.horizontal{
+}
+
+.flex-row{
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 850px;
+}
+
+.title-card{
+  padding: 12px 50px;
+  display: inline-block;
+
+  p{
+    color:#777;
+  }
+}
+
+.card-shadow{
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  border-radius: 2px;
+}
+
+.info-card{
+  width: 400px;
+  margin: 24px;
+
+  h3{
+    padding: 12px;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .found-title{
+    background-color: #217b2c;
+  }
+
+  .lost-title{
+    background-color: #e63d3d;
+  }
 
   img{
-      width: 300px;
+    width: inherit;
   }
 
   p{
@@ -72,21 +104,6 @@ $height-post: 600px;
     font-style: italic;
     padding: 0 10%;
   }
-}
-
-.googleButton{
-  width: 225px;
-  background-color: #3367d6;
-  border-radius: 3px;
-  padding: 1px;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.18), 1px 3px 3px rgba(0,0,0,0.15);
-  -webkit-transition: ease-in-out 0.150s; /* Safari */
-  transition: ease-in-out 0.150s;
-}
-
-.googleButton:hover{
-  width: 235px;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.25), 3px 5px 5px rgba(0,0,0,0.20);
 }
 
 .avatarImg{

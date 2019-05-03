@@ -68,31 +68,24 @@ class Home extends Component {
               <NavBar user={this.state.user}/>
 
               <div className="section content-wrapper">
-              <div>
-                <h1>Lost and Found</h1>
-                <div className="horizontal">
-                  <div>
-                    <h3>Found Something</h3>
+                <div className="cards-wrapper">
+                  <div className="title-card card-shadow">
+                    <h1 className="app-title">Lost and Found</h1>
+                    <p>Bringing your old fashion lost and found bin to the world</p>
                   </div>
-                  <div>
-                    <h3>Lost Something </h3>
+                  <div className="flex-row">
+                    <div className="info-card card-shadow">
+                        <h3 className="found-title">Found Something</h3>
+                        <img src={foundImg}/>
+                        <p>Describe the item that you found and where you found it and we will find the owner</p>
+                    </div>
+                    <div className="info-card card-shadow">
+                        <h3 className="lost-title">Lost Something</h3>
+                        <img src={treasureMapImg}/>
+                        <p>Tell us what you lost and we will tell you when soemone finds it</p>
+                    </div>
                   </div>
-                </div>
-                <div className="horizontal">
-                  <div>
-                    <img src={foundImg}/>
-                  </div>
-                  <div>
-                    <img src={treasureMapImg}/>
-                  </div>
-                </div>
-                <div className="horizontal">
-                    <p>Describe the item that you found and where you found it and we will find the owner</p>
-                    <p>Tell us what you lost and we will tell you when soemone finds it</p>
-
-                </div>
-
-              <Login/>
+                  <Login/>
               </div>
 
 
