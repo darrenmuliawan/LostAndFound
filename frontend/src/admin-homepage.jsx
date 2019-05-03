@@ -20,6 +20,7 @@ class AdminHome extends Component {
             visible: false,
             visible2: false,
             items: [{
+                id: '',
                 index: 0,
                 brand: '',
                 category: '',
@@ -46,12 +47,9 @@ class AdminHome extends Component {
         .then((item) => {            
             item.forEach((i) => {
                 if (i.data().found == 0) {
-                    console.log(i);
-                    
-                    console.log(i.data());
-                    
                     let copy = i.data();
                     copy.index = index;
+                    copy.id = i.id;
                     //i.data().index = index;
                     this.setState(prevState => ({
                         items: [...prevState.items, copy]

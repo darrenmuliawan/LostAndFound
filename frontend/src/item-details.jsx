@@ -3,6 +3,7 @@ import './item-details.scss'
 import { Modal, Header, Image } from 'semantic-ui-react'
 import { isArray } from 'util';
 import { Button } from 'semantic-ui-react';
+import firebase from "firebase/app";
 
 class ItemDetails extends Component {
     handleClose = () => {
@@ -17,7 +18,14 @@ class ItemDetails extends Component {
         this.props.nextItem(this.props.selectedIndex);
     }
 
-
+    foundItem = (item) => {
+        console.log(item.id);
+            
+        let db = firebase.firestore();
+        let ref = db.collection('items').doc(item.id.toString());
+        return ref.update({found: 1});
+    }
+    
     render() {
         const { selectedItem, open, selectedIndex, items } = this.props;
         let output = JSON.parse(JSON.stringify(items[selectedIndex]));
@@ -48,7 +56,7 @@ class ItemDetails extends Component {
                             <p className="subcategory"> Contact: </p>
                             <p className="details"> Phone Number: { output.description } </p>
                             <p className="details"> Email: { output.email } </p>
-                            <Button className="button-found"> FOUND </Button>
+                            <Button className="button-found" onClick={ () => this.foundItem(output) }> FOUND </Button>
 
                       </Modal.Description>
                     </Modal.Content>
@@ -73,7 +81,7 @@ class ItemDetails extends Component {
                             <p className="subcategory"> Contact: </p>
                             <p className="details"> Phone Number: { output.phoneNumber } </p>
                             <p className="details"> Email: { output.email } </p>
-                            <Button className="button-found"> FOUND </Button>
+                            <Button className="button-found" onClick={ () => this.foundItem(output) }> FOUND </Button>
                             </Modal.Description>
                     </Modal.Content>
                 </Modal>
