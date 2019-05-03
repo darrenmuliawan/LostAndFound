@@ -12,7 +12,8 @@ import googleImg from './googleButton.png';
 
 import app from 'firebase/app';
 import 'firebase/auth';
-
+import 'firebase/database';
+import firebase from 'firebase';
 
 
 
@@ -47,16 +48,9 @@ class Login extends Component {
         console.log(user);
         if (user) {
           this.setState({ user });
-          localStorage.setItem('user', user.uid);
-          localStorage.setItem('name', user.displayName);
-          localStorage.setItem('imageURL', user.photoURL);
-          localStorage.setItem('email', user.email);
+          
         } else {
           this.setState({ user: null });
-          localStorage.removeItem('user');
-          localStorage.removeItem('name');
-          localStorage.removeItem('imageURL');
-          localStorage.removeItem('email');
         }
       });
     }
@@ -65,10 +59,8 @@ class Login extends Component {
       this.auth.signInWithPopup(this.googleProvider)
             .catch(function (error) {
                 alert(error); // or show toast
-                //localStorage.removeItem(firebaseAuthKey);
             });
             console.log("login");
-        //localStorage.setItem(firebaseAuthKey, "1");
     }
 
     handleGoogleLogout() {
@@ -77,7 +69,7 @@ class Login extends Component {
           user: null
         });
       });
-            console.log("login");
+            console.log("logout");
         //localStorage.setItem(firebaseAuthKey, "1");
     }
 

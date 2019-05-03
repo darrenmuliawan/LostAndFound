@@ -11,6 +11,7 @@ import Login from '../login/login.jsx'
 import FirebaseContext from '../context.jsx'
 import ScrollView, { ScrollElement } from "./scroll.jsx";
 import { Redirect } from 'react-router'
+import NavBar from '../nav-bar/nav-bar.jsx'
 
 import app from 'firebase/app';
 import 'firebase/auth';
@@ -34,7 +35,25 @@ class UserHome extends Component {
 
     componentDidMount() {
 		this.auth.onAuthStateChanged(user => {
-			user ? this.setState({ user }) : this.setState({ user: null });
+			if(user){
+				this.setState({ user }) ;
+				let db = firebase.firestore();
+				db.collection("userRoles")
+				 .doc(user.uid)
+				 .get()
+				 .then((item) => {
+					 let data = item.data();
+					 if(data && data.isAdmin == true){
+						 user.isAdmin = data.isAdmin;
+						 this.setState({ user }) ;
+						 
+					 }
+					 console.log(user);
+				 })
+			}else{
+				 this.setState({ user: null });
+			}
+
 			let db = firebase.firestore();
 		    let index = 0;
 		    db.collection("items")
@@ -79,34 +98,9 @@ class UserHome extends Component {
 
         return (
             <div className="sections">
-                <div className="section headers">
-					<div className="header-icon">
-					  <FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
-					</div>
-					<div className="header-logo">
-					  <p className="logo"> Lost and Found </p>
-					</div>
-                    { this.state.user == null ?
-                        <div className="header-user">
-                          <Link to="/admin/adminusername">
-                              <FontAwesomeIcon icon= {faUserCircle}/>
-                          </Link>
-                          <Link to="/admin/adminusername">
-                              <p className="username"> null </p>
-                          </Link>
-                        </div>
-                        :
-                        <div className="header-user">
-                          <Link to="/admin/adminusername">
-                            <img className="avatarImg" src={this.state.user.photoURL}/>
-                          </Link>
-                          <Link to="/admin/adminusername">
-                              <p className="username"> {this.state.user.displayName} </p>
-                          </Link>
-                        </div>
-                     }
-              	</div>
-                
+							<NavBar user={this.state.user}/>
+
+
                 <div className="section content-wrapper">
              		<div className="items lost">
              			<h2>Lost Items</h2>

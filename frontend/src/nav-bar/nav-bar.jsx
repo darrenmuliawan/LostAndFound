@@ -24,6 +24,11 @@ class NavBar extends Component {
 
 
 	render() {
+				let adminButton;
+				if(this.props && this.props.user && this.props.user.isAdmin){
+					console.log("ADMIN", this.props.user.isAdmin);
+					adminButton = <Link to="/admin"> <p className="username">Admin</p> </Link>;
+				}
 
         return (
 					<div className="section headers">
@@ -31,7 +36,13 @@ class NavBar extends Component {
 									<FontAwesomeIcon icon= {faBars} onClick = { this.openSidebar }/>
 							</div>
 							<div className="header-logo">
-									<p className="logo"> Lost and Found </p>
+								<Link to="/">
+										<p className="username">Home</p>
+								</Link>
+								<Link to="/user">
+										<p className="username">Dashboard</p>
+								</Link>
+								{ adminButton	}
 							</div>
 								{ this.props.user == null ?
 										<div className="header-user">

@@ -36,11 +36,6 @@ class App extends Component {
 
       app.initializeApp(config);
       this.auth = app.auth();
-
-      var t = 1556840708*1000;
-      console.log(t);
-      console.log(new Date(t));
-
     }
 
   componentDidMount() {
