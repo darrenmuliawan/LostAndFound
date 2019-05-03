@@ -23,15 +23,7 @@ const options = [
   { key: "o", text: "Other", value: "Other" }
 ];
 
-// var config = {
-//   apiKey: "AIzaSyAXh0bhHnzUDfFmEdnX0yyLuLbncYhNAqE",
-//   authDomain: "ilini-lostandfound.firebaseapp.com",
-//   databaseURL: "https://ilini-lostandfound.firebaseio.com",
-//   projectId: "ilini-lostandfound",
-//   storageBucket: "ilini-lostandfound.appspot.com",
-//   messagingSenderId: "596991029999"
-// };
-// firebase.initializeApp(config);
+
 
 class SubmissionForm extends Component {
   constructor(props) {

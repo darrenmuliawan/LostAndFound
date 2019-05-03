@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AdminHomepage from './admin-homepage.jsx';
 import AdminDetails from './admin-details.jsx';
 import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'
 import Login from './login/login.jsx';
 import Home from './home/home.jsx';
+import UserHome from './UserHome/user-home.jsx';
 // import AdminDetails from './admin-details.jsx'; <Route exact path="/admin/adminusername" component={AdminDetails}/>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,7 +35,6 @@ class App extends Component {
 
       app.initializeApp(config);
       this.auth = app.auth();
-
     }
 
   componentDidMount() {
@@ -53,7 +52,8 @@ render() {
           <Route exact path="/admin" component={AdminHomepage}/>
           <Route exact path="/admin/adminusername" component={AdminDetails} />
           <Route exact path="/form" component={SubmissionForm} />
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={Home} isAuthed={false}/>
+          <Route exact path="/user" component={UserHome}/>
         </Switch>
       </Router>
     );
