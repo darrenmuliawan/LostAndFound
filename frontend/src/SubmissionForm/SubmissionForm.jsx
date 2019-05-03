@@ -37,7 +37,7 @@ class SubmissionForm extends Component {
       location: "",
       lostOrFound: "",
       phoneNumber: "",
-      file: null,
+      files: [],
       dateLostOrFound: new Date(),
       submitted: false,
       error: false
@@ -69,7 +69,7 @@ class SubmissionForm extends Component {
   }
 
   fileChange(event) {
-    this.setState({ file: event.target.files[0] });
+    this.setState({ files: event.target.files });
   }
 
   async submitHandler() {
@@ -84,14 +84,21 @@ class SubmissionForm extends Component {
       }
     }
 
-    let fileDownloadUrl = "";
-    const file = data.file;
-    if (file) {
-      const storageRef = firebase.storage().ref("images/" + file.name);
-      fileDownloadUrl = await storageRef
+    const fileDownloadUrls = [];
+    const files = data.files;
+    const timestamp = Date.now();
+    for (var i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileName =
+        file.name.substr(0, file.name.lastIndexOf(".")) +
+        timestamp +
+        file.name.substr(file.name.lastIndexOf("."));
+      const storageRef = firebase.storage().ref("images/" + fileName);
+      const fileDownloadUrl = await storageRef
         .put(file)
         .then(snapshot => snapshot.ref.getDownloadURL())
         .catch(err => console.log(err));
+      fileDownloadUrls.push(fileDownloadUrl);
     }
 
     const db = firebase.firestore();
@@ -106,7 +113,7 @@ class SubmissionForm extends Component {
         location: data.location,
         lostOrFound: data.lostOrFound,
         phoneNumber: data.phoneNumber,
-        file: fileDownloadUrl,
+        file: fileDownloadUrls,
         found: 0
       })
       .then(docRef => console.log(docRef))
@@ -195,7 +202,7 @@ class SubmissionForm extends Component {
           />
         </Form.Field>
         <Form.Field>
-          <label>Upload Image (Optional)</label>
+          <label>Upload Image(s) (Optional)</label>
           <Form.Button onClick={() => this.fileInputRef.current.click()}>
             Choose File
           </Form.Button>
@@ -203,8 +210,16 @@ class SubmissionForm extends Component {
             ref={this.fileInputRef}
             type="file"
             hidden
+            multiple
             onChange={this.fileChange}
           />
+          <div>
+            {this.state.files.length
+              ? Array.from(this.state.files).map((file, i) => (
+                  <div key={i}>{file.name}</div>
+                ))
+              : ""}
+          </div>
         </Form.Field>
         <Form.TextArea
           label="Description of item"
