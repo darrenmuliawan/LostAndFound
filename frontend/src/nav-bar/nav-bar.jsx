@@ -61,28 +61,8 @@ class NavBar extends Component {
 										 </div>
 										 :
 										 <div className="header-user">
-											 <Link to={{
-												 pathname: "/admin/adminusername",
-												 state: {
-													 id: this.props.user.uid,
-													 name: this.props.user.displayName,
-													 photoURL: this.props.user.photoURL,
-													 email: this.props.user.email,
-												 }
-											 }}>
-												 <img className="avatarImg" src={this.props.user.photoURL}/>
-											 </Link>
-											 <Link to={{
-												 pathname: "/admin/adminusername",
-												 state: {
-													 id: this.props.user.uid,
-													 name: this.props.user.displayName,
-													 photoURL: this.props.user.photoURL,
-													 email: this.props.user.email,
-												 }
-											 }}>
-													 <p className="username"> {this.props.user.displayName} </p>
-											 </Link>
+											<img className="avatarImg" src={this.props.user.photoURL}/>
+											<p className="username"> {this.props.user.displayName} </p>
 										 </div>
 									 }
 					</div>

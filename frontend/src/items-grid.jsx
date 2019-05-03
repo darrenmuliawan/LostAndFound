@@ -115,6 +115,12 @@ class ItemsGrid extends Component {
 
         if (filter.length !== 0) {
             let i;
+            for (i = 0; i < filter.length; i++) {
+                output = output.filter(item => item.category.includes(filter[i]));
+            }
+        }
+        /* if (filter.length !== 0) {
+            let i;
             console.log("Filtering begin!");
 
             for (i = 0; i < filter.length; i++) {
@@ -126,14 +132,14 @@ class ItemsGrid extends Component {
                     }
                 })
             }
-        }
+        } */
 
         return (
             <div className="containers">
                 <div>
-                    <p className="list-title"> List of Lost Items: </p>
+                    <p className="list-title"> List of Lost Items: (Found: { this.props.numLost } items) </p>
                 </div>
-                <List selection divided relaxed className="item-list">
+                <List selection divided relaxed className="item-list" style={{maxHeight: 200, overflow: 'auto'}}>
                     {output.map(item => 
                         <List.Item onClick={this.handleOpenClick(item)}>
                             <List.Content >

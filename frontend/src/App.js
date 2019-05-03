@@ -50,7 +50,6 @@ render() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/admin" component={AdminHomepage}/>
-          <Route exact path="/admin/adminusername" component={AdminDetails} />
           <Route exact path="/form" component={SubmissionForm} />
           <Route exact path="/" component={Home}/>
           <Route exact path="/user" component={UserHome}/>
