@@ -27,7 +27,15 @@ class NavBar extends Component {
 				let adminButton;
 				if(this.props && this.props.user && this.props.user.isAdmin){
 					console.log("ADMIN", this.props.user.isAdmin);
-					adminButton = <Link to="/admin"> <p className="username">Admin</p> </Link>;
+					adminButton = <Link to={{
+                          pathname: "/admin",
+                          state: {
+                            id: this.props.user.uid,
+                            name: this.props.user.displayName,
+                            photoURL: this.props.user.photoURL,
+                            email: this.props.user.email,
+                          }
+                        }}> <p className="username">Admin</p> </Link>;
 				}
 
         return (
@@ -44,25 +52,35 @@ class NavBar extends Component {
 								</Link>
 								{ adminButton	}
 							</div>
-								{ this.props.user == null ?
-										<div className="header-user">
-											<Link to="/admin/adminusername">
-													<FontAwesomeIcon icon= {faUserCircle}/>
-											</Link>
-											<Link to="/admin/adminusername">
-													<p className="username"> null </p>
-											</Link>
-										</div>
-										:
-										<div className="header-user">
-											<Link to="/admin/adminusername">
-												<img className="avatarImg" src={this.props.user.photoURL}/>
-											</Link>
-											<Link to="/admin/adminusername">
-													<p className="username"> {this.props.user.displayName} </p>
-											</Link>
-										</div>
-									}
+							{ this.state.user == null ?
+										 <div className="header-user">
+										 </div>
+										 :
+										 <div className="header-user">
+											 <Link to={{
+												 pathname: "/admin/adminusername",
+												 state: {
+													 id: this.state.user.uid,
+													 name: this.state.user.displayName,
+													 photoURL: this.state.user.photoURL,
+													 email: this.state.user.email,
+												 }
+											 }}>
+												 <img className="avatarImg" src={this.state.user.photoURL}/>
+											 </Link>
+											 <Link to={{
+												 pathname: "/admin/adminusername",
+												 state: {
+													 id: this.state.user.uid,
+													 name: this.state.user.displayName,
+													 photoURL: this.state.user.photoURL,
+													 email: this.state.user.email,
+												 }
+											 }}>
+													 <p className="username"> {this.state.user.displayName} </p>
+											 </Link>
+										 </div>
+									 }
 					</div>
         )
     }

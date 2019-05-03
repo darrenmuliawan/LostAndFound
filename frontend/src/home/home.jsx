@@ -15,6 +15,8 @@ import foundImg from './found.png';
 
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
+import firebase from 'firebase';
 
 class Home extends Component {
     constructor() {
@@ -31,9 +33,24 @@ class Home extends Component {
 
     componentDidMount() {
       this.auth.onAuthStateChanged(user => {
-        user
-          ? this.setState({ user })
-          : this.setState({ user: null });
+        if(user){
+  				this.setState({ user }) ;
+  				let db = firebase.firestore();
+  				db.collection("userRoles")
+  				 .doc(user.uid)
+  				 .get()
+  				 .then((item) => {
+  					 let data = item.data();
+  					 if(data && data.isAdmin == true){
+  						 user.isAdmin = data.isAdmin;
+  						 this.setState({ user }) ;
+
+  					 }
+  					 console.log(user);
+  				 })
+  			}else{
+  				 this.setState({ user: null });
+  			}
       });
     }
 
