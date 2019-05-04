@@ -49,6 +49,7 @@ class SubmissionForm extends Component {
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.dateHandler = this.dateHandler.bind(this);
     this.fileChange = this.fileChange.bind(this);
+
   }
 
   lostOrFoundHandler(event, { value }) {
@@ -95,12 +96,9 @@ class SubmissionForm extends Component {
         .catch(err => console.log(err));
     }
 
-
     geocodeByAddress( data.location)
       .then(results => getLatLng(results[0]))
-      .then(ll => {
-        let latLng = ll;
-        console.log('Success', latLng)
+      .then(latLng => {
         const db = firebase.firestore();
         db.collection("items")
           .add({
@@ -129,14 +127,26 @@ class SubmissionForm extends Component {
             .get()
             .then((mItem) => {
                 mItem.forEach((i) => {
-                  let mData = i.mData();
+                  let mData = i.data();
                     console.log(mData);
                     if(mData && mData.latLng && mData.latLng.lat && mData.latLng.lng){
-                      let d = distance(mData.latLng.lat, mData.latLng.lng, data.latLng.lat, data.latLng.lng);
+                      let d = distance(mData.latLng.lat, mData.latLng.lng, latLng.lat, latLng.lng);
                       let e = editDistance(mData.brand, data.brand);
                       let c = compareTitles(mData.brand, data.brand);
                       if(d < 0.5 && (e < 10 || c > 0.6)){
-                        console.log("MATCH", data);//NOTIFY USER
+                        console.log("MATCH", mData);//NOTIFY USER
+                        mData.matchedUser= {
+                          name:`${data.firstName} ${data.lastName}`,
+                          email:data.email,
+                        };
+                        data.matchedUser= {
+                          name:mData.fullName,
+                          email:mData.email,
+                        };
+                        console.log("MATCH", data, mData);//NOTIFY USER
+                        docRef.set(data);
+                        db.collection("items").doc(i.id).set(mData);
+                        // i.data().userRef.set(mData);
                       }
                     }
                 })
