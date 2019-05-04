@@ -242,7 +242,7 @@ class AdminHome extends Component {
                         filter = { this.state.filter }
                     />
                 </div>
-                <div className="">
+                <div className="section items">
                     <FoundItemsList
                         items = { foundOutput }
                         allItems = { this.state.foundItems }
