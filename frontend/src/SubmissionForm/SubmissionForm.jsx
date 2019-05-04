@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Message } from "semantic-ui-react";
 import DatePicker from "react-datepicker";
 import LocationSearchInput from "./LocationSearchInput";
+import {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import firebase from "firebase/app";
 import "firebase/storage";
 import "firebase/firestore";
@@ -94,27 +95,62 @@ class SubmissionForm extends Component {
         .catch(err => console.log(err));
     }
 
-    const db = firebase.firestore();
-    db.collection("items")
-      .add({
-        brand: data.brand,
-        category: data.category,
-        dateLostOrFound: data.dateLostOrFound,
-        description: data.description,
-        email: data.email,
-        fullName: `${data.firstName} ${data.lastName}`,
-        location: data.location,
-        lostOrFound: data.lostOrFound,
-        phoneNumber: data.phoneNumber,
-        file: fileDownloadUrl,
-        found: 0
-      })
-      .then(docRef => console.log(docRef))
-      .catch(err => console.log(err));
-    this.setState({
-      submitted: true,
-      error: false
-    });
+
+    geocodeByAddress( data.location)
+      .then(results => getLatLng(results[0]))
+      .then(ll => {
+        let latLng = ll;
+        console.log('Success', latLng)
+        const db = firebase.firestore();
+        db.collection("items")
+          .add({
+            brand: data.brand,
+            category: data.category,
+            dateLostOrFound: data.dateLostOrFound,
+            description: data.description,
+            email: data.email,
+            fullName: `${data.firstName} ${data.lastName}`,
+            location: data.location,
+            latLng: latLng,
+            lostOrFound: data.lostOrFound,
+            phoneNumber: data.phoneNumber,
+            file: fileDownloadUrl,
+            found: 0
+          })
+          .then(docRef => {
+
+            const db = firebase.firestore();
+
+            console.log("item", data);
+            let oppositeState = (data.lostOrFound == "lost") ? "found" : "lost";
+            db.collection("items")
+            .where("lostOrFound", "==", oppositeState)
+            .where("category", "==", data.category)
+            .get()
+            .then((mItem) => {
+                mItem.forEach((i) => {
+                  let mData = i.mData();
+                    console.log(mData);
+                    if(mData && mData.latLng && mData.latLng.lat && mData.latLng.lng){
+                      let d = distance(mData.latLng.lat, mData.latLng.lng, data.latLng.lat, data.latLng.lng);
+                      let e = editDistance(mData.brand, data.brand);
+                      let c = compareTitles(mData.brand, data.brand);
+                      if(d < 0.5 && (e < 10 || c > 0.6)){
+                        console.log("MATCH", data);//NOTIFY USER
+                      }
+                    }
+                })
+              });
+
+          })
+          .catch(err => console.log(err));
+        this.setState({
+          submitted: true,
+          error: false
+        });
+      });
+
+
   }
 
   render() {
@@ -220,3 +256,77 @@ class SubmissionForm extends Component {
 }
 
 export default SubmissionForm;
+
+
+//Calculate distance between 2 lats and longs
+//https://www.geodatasource.com/developers/javascript
+function distance(lat1, lon1, lat2, lon2) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		dist = dist * 1.609344;
+		return dist;
+	}
+}
+
+function compareTitles(s1, s2){
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+  let a1 = s1.split(" ");
+  let a2 = s2.split(" ");
+  let v1 = 0;
+  let v2 = 0;
+  a1.map(w => {
+    if(s2.includes(w)){
+      v1++;
+    }
+  })
+
+  a2.map(w => {
+    if(s1.includes(w)){
+      v2++;
+    }
+  })
+
+  return (v1/a1.length + v2/a2.length)/2;
+}
+
+//https://stackoverflow.com/questions/10473745/compare-strings-javascript-return-of-likely
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}

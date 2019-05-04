@@ -96,7 +96,7 @@ class UserHome extends Component {
 
 	render() {
 				console.log(this.state.user);
-				
+
         return (
             <div className="sections">
 							<NavBar user={this.state.user}/>
