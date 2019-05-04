@@ -85,7 +85,6 @@ class UserHome extends Component {
 		        	this.setState({foundItems: foundItems});
 				}
 		    })
-		    console.log(user.email);
 		});
     }
 
@@ -95,12 +94,11 @@ class UserHome extends Component {
     }
 
 	render() {
-				console.log(this.state.user);
+		console.log(this.state.user);
 
         return (
             <div className="sections">
-							<NavBar user={this.state.user}/>
-
+				<NavBar user={this.state.user}/>
 
                 <div className="section content-wrapper">
              		<div className="items lost">
@@ -108,14 +106,26 @@ class UserHome extends Component {
 	                	<ScrollView ref={scroller => this._scroller = scroller}>
 				          <div className="scroller">
 				           	{ this.state.lostItems.length ?
-					            this.state.lostItems.map(({ brand, description }) => {
-					              return (
-					                <ScrollElement>
-					                  <div className="item">
-					                    {brand} - {description}
-					                  </div>
-					                </ScrollElement>
-					              );
+					            this.state.lostItems.map(({ brand, description, matchedUser }) => {
+												if(matchedUser){
+													return (
+													 <ScrollElement>
+															 <div className="found-item">
+																 <p>{brand} - {description}</p>
+																 <p className="bold">{matchedUser.name} ({matchedUser.email}) has this item</p>
+															 </div>
+													 </ScrollElement>
+												 );
+												}else{
+													return (
+													 <ScrollElement>
+														 <div className="item">
+															 {brand} - {description}
+														 </div>
+													 </ScrollElement>
+												 );
+												}
+
 				            	})
 					            :
 					            <span>0 items found!</span>
@@ -134,14 +144,25 @@ class UserHome extends Component {
 				        <ScrollView ref={scroller => this._scroller = scroller}>
 				          <div className="scroller">
 				            { this.state.foundItems.length ?
-				            	this.state.foundItems.map(({ name }) => {
-					              return (
-					                <ScrollElement name={name}>
-					                  <div className="item">
-					                    {name}
-					                  </div>
-					                </ScrollElement>
-					              );
+				            	this.state.foundItems.map(({ brand, description, matchedUser }) => {
+												if(matchedUser){
+													return (
+													 <ScrollElement>
+															 <div className="found-item">
+																 <p>{brand} - {description}</p>
+																 <p className="bold">{matchedUser.name} ({matchedUser.email}) lost this item</p>
+															 </div>
+													 </ScrollElement>
+												 );
+												}else{
+													return (
+													 <ScrollElement>
+														 <div className="item">
+															 {brand} - {description}
+														 </div>
+													 </ScrollElement>
+												 );
+												}
 					            })
 				            	:
 				            	<span>0 Items found!</span>

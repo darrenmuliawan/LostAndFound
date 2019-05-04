@@ -29,15 +29,12 @@ class ItemDetails extends Component {
     render() {
         const { selectedItem, open, selectedIndex, items } = this.props;
         let output = JSON.parse(JSON.stringify(items[selectedIndex]));
-        //console.log(output.dateLostOrFound.seconds);
-        //const date = new Date(output.dateLostOrFound.seconds * 1000).toISOString().substr(11,8);
         const date = new Date(output.dateLostOrFound.seconds * 1000).toString();
-        console.log(date);
-        //const date = 0;
+        console.log(output);
 
-        if (output !== null && typeof(output.imageUrl) !== 'undefined') {
+        if (output !== null && typeof(output.file) !== 'undefined' && output.file !== null) {
             return (
-                <Modal onClose={this.handleClose} open={open}>
+                <Modal closeIcon onClose={this.handleClose} open={open}>
                     <Modal.Header className="modal-title"> { output.fullName } </Modal.Header>
                     <Modal.Content image scrolling className="modal-content">
                         <Modal.Description className="modal-description">
@@ -52,7 +49,8 @@ class ItemDetails extends Component {
                             <p className="subcategory"> Location: </p>
                             <p className="details"> { output.location } </p>
                             <p className="subcategory"> Images: </p>
-                            { output.imageUrl.map(img => <Image size="small" src = {img} style={{ marginBottom: '50px'}} href={img}/>) }
+                            { output.file.map(img => <Image size="small" src = {img} style={{ paddingRight : '20px'}} href={img}/>) }
+
                             <p className="subcategory"> Contact: </p>
                             <p className="details"> Phone Number: { output.description } </p>
                             <p className="details"> Email: { output.email } </p>

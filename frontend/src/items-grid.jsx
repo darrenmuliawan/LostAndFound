@@ -76,7 +76,7 @@ class ItemsGrid extends Component {
                 items: this.props.items
             })
 
-          
+
         }
         return f;
     }
@@ -123,20 +123,6 @@ class ItemsGrid extends Component {
                 output = output.filter(item => item.category.includes(filter[i]));
             }
         }
-        /* if (filter.length !== 0) {
-            let i;
-            console.log("Filtering begin!");
-
-            for (i = 0; i < filter.length; i++) {
-                output.forEach(item => {
-                    if (!item.category.includes(filter[i])) {
-                        item.brand = "Not this!";
-                        console.log(output);
-                        console.log(this.state.items);
-                    }
-                })
-            }
-        } */
 
         return (
             <div className="containers">
@@ -169,33 +155,6 @@ class ItemsGrid extends Component {
                 />
             </div>
         )
-        /*return (
-            <div className="containers">
-                <Grid columns={4}>
-                    {output.map(item =>
-                        <Grid.Column>
-                            <Card
-                                header= {item.brand}
-                                meta= {item.category}
-                                description= {item.description}
-                                onClick={this.handleOpenClick(item)}
-                            />
-                        </Grid.Column>
-                    )}
-                </Grid>
-
-                <ItemDetails
-                    selectedItem = { this.state.selectedItem }
-                    open = { this.state.open }
-                    onClose = { this.handleClose }
-                    nextItem = { this.nextItemDetails }
-                    prevItem = { this.prevItemDetails }
-                    selectedIndex = { this.state.selectedIndex }
-                    items = { this.props.allItems }
-                />
-
-            </div>
-        )*/
     }
 }
 
