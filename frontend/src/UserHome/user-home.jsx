@@ -65,6 +65,8 @@ class UserHome extends Component {
 		    	let lostItems = [];
 		        item.forEach((i) => {
 		            let copy = i.data();
+								console.log("Lost", copy);
+
 		            lostItems.push(copy);
 		        })
 		        if( this.state.lostItems.length != lostItems.length) {
@@ -82,6 +84,7 @@ class UserHome extends Component {
 		        item.forEach((i) => {
 		            let copy = i.data();
 		            foundItems.push(copy);
+								console.log("Found", copy);
 		        })
 		        if( this.state.foundItems.length != foundItems.length) {
 		        	this.setState({foundItems: foundItems});

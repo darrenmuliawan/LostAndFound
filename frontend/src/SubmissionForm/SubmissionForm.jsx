@@ -116,6 +116,7 @@ class SubmissionForm extends Component {
             email: data.email,
             fullName: `${data.firstName} ${data.lastName}`,
             location: data.location,
+            latLng: latLng,
             lostOrFound: data.lostOrFound,
             phoneNumber: data.phoneNumber,
             file: fileDownloadUrls,
@@ -145,12 +146,26 @@ class SubmissionForm extends Component {
                           name:`${data.firstName} ${data.lastName}`,
                           email:data.email,
                         };
-                        data.matchedUser= {
-                          name:mData.fullName,
-                          email:mData.email,
+                        let newData = {
+                          brand: data.brand,
+                          category: data.category,
+                          dateLostOrFound: data.dateLostOrFound,
+                          description: data.description,
+                          email: data.email,
+                          fullName: `${data.firstName} ${data.lastName}`,
+                          location: data.location,
+                          latLng: latLng,
+                          matchedUser: {
+                            name:mData.fullName,
+                            email:mData.email
+                          },
+                          lostOrFound: data.lostOrFound,
+                          phoneNumber: data.phoneNumber,
+                          file: fileDownloadUrls,
+                          found: 0
                         };
-                        console.log("MATCH", data, mData);//NOTIFY USER
-                        docRef.set(data);
+                        console.log("MATCH", newData, mData);//NOTIFY USER
+                        docRef.set(newData);
                         db.collection("items").doc(i.id).set(mData);
                         // i.data().userRef.set(mData);
                       }
