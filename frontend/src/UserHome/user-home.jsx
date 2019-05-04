@@ -58,7 +58,8 @@ class UserHome extends Component {
 		    let index = 0;
 		    db.collection("items")
 		    .where("email", "==", user.email)
-		    .where("lostOrFound", "==", "lost")
+				.where("lostOrFound", "==", "lost")
+				.where("found", "==", 0)
 		    .get()
 		    .then((item) => {
 		    	let lostItems = [];
@@ -73,7 +74,8 @@ class UserHome extends Component {
 
 		    db.collection("items")
 		    .where("email", "==", user.email)
-		    .where("lostOrFound", "==", "found")
+				.where("lostOrFound", "==", "found")
+				.where("found", "==", 0)
 		    .get()
 		    .then((item) => {
 		    	let foundItems = [];

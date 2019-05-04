@@ -1,5 +1,6 @@
 // Colors
 $color-white: #FFF;
+$color-black: #000;
 $color-purple: #511EF4;
 $color-orange: #F4511E;
 $color-blue: #1EC1F4;
@@ -65,7 +66,7 @@ $bp-desktop-22: 1680px;
 
 body {
   font-family: $font-family;
-  color: $color-white;
+  color: $color-black;
 }
 
 .sections {

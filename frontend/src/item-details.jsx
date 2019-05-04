@@ -49,7 +49,7 @@ class ItemDetails extends Component {
                             <p className="subcategory"> Location: </p>
                             <p className="details"> { output.location } </p>
                             <p className="subcategory"> Images: </p>
-                            { output.file.map(img => <Image size="small" src = {img} style={{ paddingRight : '20px'}} href={img}/>) }
+                            { Array.from(output.file).map(img => <Image size="small" src = {img} style={{ paddingRight : '20px'}} href={img}/>) }
 
                             <p className="subcategory"> Contact: </p>
                             <p className="details"> Phone Number: { output.description } </p>
