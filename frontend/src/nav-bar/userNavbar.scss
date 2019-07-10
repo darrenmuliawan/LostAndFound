@@ -1,0 +1,82 @@
+// Font size
+$font-size: 22px;
+$font-weight: 400;
+
+// Colors
+$color-darker-blue: #031c42;
+$color-off-white: #f1f1f1;
+
+// Heights
+$height-header: 60px;
+
+.headers3 {
+    position: fixed;
+    z-index: 10;
+    height: $height-header;
+    background-color: black;
+    display: grid;
+    grid-template-columns: 15% 50% 35%;
+    font-size: $font-size;
+}
+
+.header-username {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.header-user-admin {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-notification {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px !important;
+}
+
+.fa-bell:hover, .fa-caret-square-down:hover, .header-home-button:hover {
+    cursor: pointer;
+}
+
+.fa-caret-square-down {
+    margin-left: 15px;
+}
+
+.header-user-menu, .notification-items {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    font-size: 18px !important;
+    background-color: white !important;
+    margin: 10px 10px 10px 10px !important;
+    transition: all .2s ease-in-out;
+    //padding: 10px 10px 10px 10px !important;
+}
+
+.header-user-menu:hover {
+    transform: scale(1.1);
+    //background-color: red !important;
+}
+
+.filter-btn, .notif-btn {
+    background-color: black !important;
+    font-size: 20px !important;
+    color: white !important;
+    opacity: 0.9;
+}
+
+.filter-btn, .notif-btn:hover {
+    opacity: 1;
+}

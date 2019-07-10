@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import AdminHomepage from './admin-homepage.jsx';
-import AdminDetails from './admin-details.jsx';
+import AdminHomepage from './adminPage/admin-homepage.jsx';
+import AdminDetails from './adminPage/admin-details.jsx';
+import AdminActivities from './adminPage/admin-history.jsx';
+import AdminAnalytics from './adminPage/admin-analytics.jsx';
 import SubmissionForm from './SubmissionForm/SubmissionForm.jsx'
+import Navbar from './nav-bar/userNavbar.jsx'
 import Login from './login/login.jsx';
 import Home from './home/home.jsx';
 import UserHome from './UserHome/user-home.jsx';
@@ -50,6 +53,9 @@ render() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/admin" component={AdminHomepage}/>
+          <Route exact path="/admin/profile" component={AdminDetails}/>
+          <Route exact path="/admin/history" component={AdminActivities}/>
+          <Route exact path="/admin/analytics" component={AdminAnalytics}/>
           <Route exact path="/form" component={SubmissionForm} />
           <Route exact path="/" component={Home}/>
           <Route exact path="/user" component={UserHome}/>

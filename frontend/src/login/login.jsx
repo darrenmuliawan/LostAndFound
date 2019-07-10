@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import './login.scss'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button} from 'semantic-ui-react'
 import googleImg from './googleButton.png';
 

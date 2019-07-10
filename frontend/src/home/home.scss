@@ -1,5 +1,4 @@
 // Colors
-
 $color-darker-blue: #031c42;
 $color-off-white: #f1f1f1;
 
@@ -9,104 +8,38 @@ $height-main: 1000px;
 $height-main-desktop: 800px;
 $height-post: 600px;
 
-.headers {
-    position: fixed;
+.headers2 + .homepage-pic {
+    padding-top: 60px;
+}
+
+.homepage-pic {
+    height: 100vh;
+    background-color: black;
+    background-image: url('../images/homepage.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
     display: grid;
-    grid-template-columns: 25% 50% 25%;
-    height: $height-header;
-    background-color: $color-darker-blue;
-    z-index: 10;
-}
-
-.header-icon {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 20px;
-}
-
-.header-logo {
-    display: flex;
+    grid-template-rows: 50% 50%;
     justify-content: center;
     align-items: center;
 }
 
-.logo:hover {
-    cursor: pointer;
+.homepage-pic-title {
+  color: white;
+  
+  font-size: 50px;
 }
 
-.header-user {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 20px;
+.get-started-text {
+  //width: 50%;
+  font-size: 30px;
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  opacity: 0.8;
 }
 
-.headers + .content-wrapper {
-    padding-top: 110px;
-}
-
-.content-wrapper {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 15px;
-    color: #555;
-    justify-content: center;
-    text-align: center;
-}
-
-.cards-wrapper{
-
-}
-
-.flex-row{
-  display: flex;
-}
-
-.title-card{
-  padding: 12px 50px;
-  display: inline-block;
-
-  p{
-    color:#777;
-  }
-}
-
-.card-shadow{
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-  border-radius: 2px;
-}
-
-.info-card{
-  width: 400px;
-  margin: 24px;
-
-  h3{
-    padding: 12px;
-    font-size: 20px;
-    color: #fff;
-  }
-
-  .found-title{
-    background-color: #217b2c;
-  }
-
-  .lost-title{
-    background-color: #e63d3d;
-  }
-
-  img{
-    width: inherit;
-  }
-
-  p{
-    color:#777;
-    font-style: italic;
-    padding: 0 10%;
-  }
-}
-
-.avatarImg{
-  width: 40px;
-  border-radius: 20px;
+.get-started-text:hover {
+  cursor: pointer;
+  opacity: 1;
 }

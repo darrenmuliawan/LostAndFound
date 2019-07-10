@@ -1,0 +1,48 @@
+// Heights
+$height-header: 60px;
+$font-size: 20px;
+
+.admin-analytics-title {
+    padding-top: 10px;
+    margin-bottom: 0px;
+    font-size: 24px;
+}
+
+.headers3 + .admin-analytics-content {
+    padding-top: $height-header;
+}
+
+.admin-analytics-content {
+    font-size: $font-size;
+}
+
+.admin-analytics-text {
+    padding-left: 20px;
+}
+
+.admin-analytics-category {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin-analytics-dropdown {
+    width: 50% !important;
+    height: 80% !important;
+}
+
+.admin-analytics-graph-container {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-graph {
+    padding-right: 25px !important;
+}
+
+.right-graph {
+    padding-left: 25px !important;
+}

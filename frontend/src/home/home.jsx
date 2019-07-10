@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import './home.scss'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { Button} from 'semantic-ui-react'
-import Login from '../login/login.jsx'
-import NavBar from '../nav-bar/nav-bar.jsx'
+import Login from '../login/loginPage.jsx'
+import SignUp from '../login/signUpPage.jsx'
+import NavBar from '../nav-bar/navbar.jsx'
 
-import treasureMapImg from './treasure-map.png';
-import foundImg from './found.png';
 
 import app from 'firebase/app';
 import 'firebase/auth';
@@ -25,6 +19,8 @@ class Home extends Component {
         this.state = {
           user: {
           },
+          open: false,
+          openSignUp: false,
         };
 
         this.auth = app.auth();
@@ -59,40 +55,61 @@ class Home extends Component {
       console.log(this.state);
     }
 
+    openLoginPage = () => {
+      this.setState({
+        open: !this.state.open,
+      })
+    }
+
+    openSignUpPage = () => {
+      this.setState({
+        open: false,
+        openSignUp: !this.state.openSignUp
+      })
+    }
+
+    openSignInPage = () => {
+      this.setState({
+        open: true,
+        openSignUp: false,
+      })
+    }
+    
+    closeSignUpPage = () => {
+      this.setState({
+        openSignUp: false,
+      })
+    }
 
     render() {
         console.log(this.state.user);
-
+        console.log(this.state.open);
+        
         return (
           <div className="sections">
-              <NavBar user={this.state.user}/>
-
-              <div className="section content-wrapper">
-                <div className="cards-wrapper">
-                  <div className="title-card card-shadow">
-                    <h1 className="app-title">Lost and Found</h1>
-                    <p>Bringing your old fashion lost and found bin to the world</p>
-                  </div>
-                  <div className="flex-row">
-                    <div className="info-card card-shadow">
-                        <h3 className="found-title">Found Something</h3>
-                        <img src={foundImg}/>
-                        <p>Describe the item that you found and where you found it and we will find the owner</p>
-                    </div>
-                    <div className="info-card card-shadow">
-                        <h3 className="lost-title">Lost Something</h3>
-                        <img src={treasureMapImg}/>
-                        <p>Tell us what you lost and we will tell you when soemone finds it</p>
-                    </div>
-                  </div>
-                  <Login/>
+              <NavBar
+                open = { this.openLoginPage }
+              />
+              <div className="homepage-pic">
+                <div className="homepage-pic-title">
+                  <p> You Lost It. We Found It. </p>
+                </div>
+                <div className="get-started-text"> 
+                  <p className="get-started-text"> Get Started &rarr; </p>
+                </div>
               </div>
+              <Login
+                open = { this.state.open }
+                closeModal = { this.openLoginPage }
+                openSignUp = { this.openSignUpPage }
+              />
+              <SignUp 
+                open = { this.state.openSignUp }
+                closeModal = { this.closeSignUpPage }
+                openSignIn = { this.openSignInPage }
+              />
 
-
-
-              </div>
-
-            </div>
+          </div>
         )
     }
 }

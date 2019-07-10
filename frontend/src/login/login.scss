@@ -1,7 +1,45 @@
+.login {
+  font-size: 20px;
+  color: black !important;
+}
+
+.login-username {
+  display: grid;
+  grid-template-columns: 15% 70%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.login-password {
+  display: grid;
+  grid-template-columns: 15% 70%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .button-wrapper{
   margin-top: 60px;
 }
 
+input {
+  height: 90%;
+  font-size: 20px;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.login-button {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding-bottom: 10px;
+}
+
+.signup-text {
+  color: blue;
+  text-decoration: underline;
+  font-size: 15px;
+  cursor: pointer;
+}
 
 .googleButton{
   width: 225px;

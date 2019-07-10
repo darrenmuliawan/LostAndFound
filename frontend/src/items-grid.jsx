@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './admin-homepage.scss'
+import './adminPage/admin-homepage.scss'
 import { Grid, Card, Image, List } from 'semantic-ui-react'
 import ItemDetails from './item-details.jsx'
 
