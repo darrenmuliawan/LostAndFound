@@ -3,7 +3,8 @@ import Navbar from '../nav-bar/userNavbar.jsx';
 import './admin-analytics.scss'
 import LineChart from './lineChart.jsx';
 import BarGraph from './barGraph.jsx';
-import { Divider, Dropdown } from 'semantic-ui-react';
+import { Divider, Dropdown, Modal } from 'semantic-ui-react';
+import SubmissionForm from '../SubmissionForm/SubmissionForm.jsx';
 
 let options = [
     {
@@ -78,8 +79,21 @@ class AdminAnalytics extends Component {
         super();
 
         this.state = {
-            selected: 'All Items'
+            selected: 'All Items',
+            openSubmissionForm: false,
         }
+    }
+
+    openSubmissionForm = () => {
+        this.setState({
+            openSubmissionForm: true,
+        })
+    }
+
+    closeSubmissionForm = () => {
+        this.setState({
+            openSubmissionForm: false,
+        })
     }
 
     handleChange = (e, { value }) => {
@@ -132,6 +146,11 @@ class AdminAnalytics extends Component {
                             </div>
                         </div>
                     }
+                    <Modal open = { this.state.openSubmissionForm } onClose = { this.closeSubmissionForm } closeIcon>
+                        <Modal.Content scrolling>
+                            <SubmissionForm/>
+                        </Modal.Content>
+                    </Modal>
                 </div>
             </div>
         )

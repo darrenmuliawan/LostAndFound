@@ -1,0 +1,31 @@
+// Heights
+$height-header: 60px;
+$font-size: 20px;
+
+.headers3 + .admin-history-content {
+    padding-top: $height-header;
+}
+
+.admin-history-content {
+    font-size: $font-size;
+}
+
+.admin-history-title {
+    padding-top: 20px;
+    margin-bottom: 0px;
+    font-size: 24px;
+}
+
+.admin-history-text {
+    padding-left: 20px;
+}
+
+.admin-history-list-item {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    background-color: white !important;
+}
+
+.admin-history-list-item:hover {
+    cursor: pointer;
+}
