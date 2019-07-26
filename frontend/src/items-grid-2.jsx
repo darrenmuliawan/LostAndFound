@@ -66,7 +66,7 @@ class ItemsGrid extends Component {
     }
 
     search = () => {
-        let s = document.getElementById("search-items").value;
+        let s = document.getElementById("search-items-2").value;
         let output = this.state.items.filter(item => item.model.toLowerCase().startsWith(s.toLowerCase()));
         this.setState({
             output: output
@@ -91,7 +91,7 @@ class ItemsGrid extends Component {
             <div className="containers">
                 <div className="containers-header">
                     <p className="list-title"> List of { this.props.title } Items: (Found: { output.length } items) </p>
-                    <Input icon="search" placeholder="Search for models..." size='mini' id='search-items' iconPosition='left' onChange={ this.search }/>
+                    <Input icon="search" placeholder="Search for models..." size='mini' id='search-items-2' iconPosition='left' onChange={ this.search }/>
                 </div>
 
                 <div className="containers-list">

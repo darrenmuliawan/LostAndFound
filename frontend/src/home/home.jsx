@@ -25,29 +25,6 @@ class Home extends Component {
 
         this.auth = app.auth();
 
-      }
-
-    componentDidMount() {
-      this.auth.onAuthStateChanged(user => {
-        if(user){
-  				this.setState({ user }) ;
-  				let db = firebase.firestore();
-  				db.collection("userRoles")
-  				 .doc(user.uid)
-  				 .get()
-  				 .then((item) => {
-  					 let data = item.data();
-  					 if(data && data.isAdmin == true){
-  						 user.isAdmin = data.isAdmin;
-  						 this.setState({ user }) ;
-
-  					 }
-  					 console.log(user);
-  				 })
-  			}else{
-  				 this.setState({ user: null });
-  			}
-      });
     }
 
     handleChange(e) {

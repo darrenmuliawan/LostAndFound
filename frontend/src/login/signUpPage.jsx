@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import './signup.scss'
-import { Modal, Header, Button} from 'semantic-ui-react'
+import { Modal, Header, Button, Message } from 'semantic-ui-react'
 import googleImg from './googleButton.png';
-
+import axios from 'axios';
 
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import firebase from 'firebase';
+import Axios from 'axios';
 
 
 
@@ -18,12 +19,24 @@ class signup extends Component {
         super();
 
         this.state = {
+            success: false,
         };
     }
 
-    signIn = () => {
-        console.log(document.getElementById("username").value);
-        console.log(document.getElementById("password").value);
+    signUp = () => {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let phone = document.getElementById("phone").value;
+        let address = document.getElementById("address").value;
+        
+        axios.post('http://localhost:4000/api/users', { name, email, phone, address, username, password }).then(res => {
+            if (res) {
+                return this.setState({success: true});
+            }
+        })
+        this.setState({success: false});
     }
     render() {
         return (
@@ -40,11 +53,11 @@ class signup extends Component {
                     </div>
                     <div className="signup-div">
                         <p className="signup"> Phone Number: </p>
-                        <input id="username" type="text" placeholder = "Enter your phone number"/>
+                        <input id="phone" type="text" placeholder = "Enter your phone number"/>
                     </div>
                     <div className="signup-div">
                         <p className="signup"> Address: </p>
-                        <input id="password" type="text" placeholder="Enter your address"/>
+                        <input id="address" type="text" placeholder="Enter your address"/>
                     </div>
                     <div className="signup-div">
                         <p className="signup"> Username: </p>
@@ -56,9 +69,10 @@ class signup extends Component {
                     </div>
                     <div className="signup-button">
                         <Button color="red" onClick={ this.props.closeModal }> Cancel </Button>
-                        <Button color="green" onClick={ this.signIn }> Sign Up </Button>
+                        <Button color="green" onClick={ this.signUp }> Sign Up </Button>
                     </div>
                     <p className="signin-text" onClick={ this.props.openSignIn}> Already have an account? Sign in here! </p>
+                    { this.state.success && <Message success visible={this.state.success} header="Success" content="You have successfully signed up" className="success-message"/> }
                 </Modal.Content>
             </Modal>
         )

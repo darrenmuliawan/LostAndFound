@@ -1,189 +1,183 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
-import './user-home.scss'
+import '../adminPage/admin-homepage.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { Button} from 'semantic-ui-react'
-import Login from '../login/login.jsx'
-import ScrollView, { ScrollElement } from "./scroll.jsx";
-import { Redirect } from 'react-router'
-import NavBar from '../nav-bar/nav-bar.jsx'
-import { browserHistory } from 'react-router'
-
-import app from 'firebase/app';
+import Sidebar from '../sidebar/sidebar.jsx'
+import ItemsGrid from '../items-grid.jsx'
+import ItemsGridResolved from '../items-grid-2.jsx'
+import firebase from "firebase/app";
+import NavBar from '../nav-bar/userNavbar.jsx'
 import 'firebase/auth';
-import 'firebase/database';
-import firebase from 'firebase';
+import { Button, Modal, Loader } from 'semantic-ui-react';
+import SubmissionForm from '../forms/submissionForm.jsx';
+import FoundItemsList from '../found-item-list.jsx'
+import axios from 'axios';
 
 class UserHome extends Component {
-
-	constructor() {
+    constructor() {
         super();
 
         this.state = {
-          user: null,
-          lostItems: [],
-          foundItems: []
-        };
+            openSidebar: false,
+            openOptions: false,
+            items: [],
+            filter: '',
+            notifications: [],
+            open: false,
+            loading: true,
+            count: 0,
+        }
+    }
 
-        this.auth = app.auth();
+    openSubmissionForm = () => {
+        this.setState({
+            open: true,
+        });
+    }
 
-      }
+    closeSubmissionForm = () => {
+        this.setState({
+            open: false,
+        });
+    }
 
     componentDidMount() {
-		this.auth.onAuthStateChanged(user => {
-			if(user){
-				this.setState({ user }) ;
-				let db = firebase.firestore();
-				db.collection("userRoles")
-				 .doc(user.uid)
-				 .get()
-				 .then((item) => {
-					 let data = item.data();
-					 if(data && data.isAdmin == true){
-						 user.isAdmin = data.isAdmin;
-						 this.setState({ user }) ;
+        axios.get("http://localhost:4000/api/lostitems/?count&where={\"lostBy\":\"" + this.props.location.state.user._id + '"}').then(res => {
+            this.setState({count: res.data.count});
+        });
+		axios.get("http://localhost:4000/api/users/" + this.props.location.state.user._id).then(res => {
+			this.setState({notifications: res.data.data.notifications})
+			let items = res.data.data.items;
+			let i = 0
+			for (i = 0; i < items.length; i++) {
+			    axios.get("http://localhost:4000/api/lostitems/" + items[i]).then(res => {
+					this.setState({
+		    			items: [...this.state.items, res.data.data]
+					})
+				})
+            }
+        })
+        if (this.state.items.length === this.state.count) {
+            this.setState({loading: false})
+        }
+    }
 
-					 }
-					 console.log(user);
-				 })
-			}else{
-				 this.setState({ user: null });
-			}
+    openSidebar = () => {
+        this.setState({
+            openSidebar: !this.state.openSidebar
+        })
+    }
 
-			let db = firebase.firestore();
-		    let index = 0;
-		    db.collection("items")
-		    .where("email", "==", user.email)
-				.where("lostOrFound", "==", "lost")
-				.where("found", "==", 0)
-		    .get()
-		    .then((item) => {
-		    	let lostItems = [];
-		        item.forEach((i) => {
-		            let copy = i.data();
-								console.log("Lost", copy);
+		handleHide = () => {
+			this.setState({
+					openSidebar: false,
+			})
+		}
 
-		            lostItems.push(copy);
-		        })
-		        if( this.state.lostItems.length != lostItems.length) {
-		        	this.setState({lostItems: lostItems});
-				}
-		    })
-
-		    db.collection("items")
-		    .where("email", "==", user.email)
-				.where("lostOrFound", "==", "found")
-				.where("found", "==", 0)
-		    .get()
-		    .then((item) => {
-		    	let foundItems = [];
-		        item.forEach((i) => {
-		            let copy = i.data();
-		            foundItems.push(copy);
-								console.log("Found", copy);
-		        })
-		        if( this.state.foundItems.length != foundItems.length) {
-		        	this.setState({foundItems: foundItems});
-				}
-		    })
+    applyFilter = (filter) => {
+        this.setState({
+            filter: filter
+        })
+	}
+		
+	update = () => {
+		this.setState({
+			items: []
 		});
-    }
+		axios.get("http://localhost:4000/api/users/" + this.props.location.state.user._id).then(res => {
+			this.setState({notifications: res.data.data.notifications})
+			let items = res.data.data.items;
+			let i = 0
+			for (i = 0; i < items.length; i++) {
+				axios.get("http://localhost:4000/api/lostitems/" + items[i]).then(res => {
+					this.setState({
+						items: [...this.state.items, res.data.data]
+					})
+				})
+			}
+	    })
+	}
 
-    handleChange(e) {
-      this.setState({ [e.target.name]: e.target.value });
-      console.log(this.state);
-    }
-
-	render() {
-		console.log(this.state.user);
+    render() {
+        let user = this.props.location.state.user;
+        let lostOutput = [{
+            _id: ''
+        }];
+        let resolvedOutput = [{
+            _id: ''
+        }];
+        //console.log(this.state.items);
+        
+        if (this.state.items[1] !== undefined && this.state.items[1].id !== "") {
+            lostOutput = this.state.items.filter( res => {
+                return res.resolved === false;
+            });
+            resolvedOutput = this.state.items.filter( res => {
+                return res.resolved === true;
+            });
+        }
+        //console.log(lostOutput, resolvedOutput);
+        
 
         return (
             <div className="sections">
-				<NavBar user={this.state.user}/>
+                { this.state.loading === true ?
+                    <Loader active inline='centered'/>
+                    :
+                    <div>
+                        <NavBar
+                            open = { this.openOptions }
+                            openSidebar = { this.openSidebar }
+                            username = {user.name}
+                            sidebar = { this.state.openSidebar }
+                            submitForm = { this.openSubmissionForm }
+                            notifications = { this.state.notifications }
+                            user = { user }
+                        />
 
-                <div className="section content-wrapper">
-             		<div className="items lost">
-             			<h2>Lost Items</h2>
-	                	<ScrollView ref={scroller => this._scroller = scroller}>
-				          <div className="scroller">
-				           	{ this.state.lostItems.length ?
-					            this.state.lostItems.map(({ brand, description, matchedUser }) => {
-												if(matchedUser){
-													return (
-													 <ScrollElement>
-															 <div className="found-item">
-																 <p>{brand} - {description}</p>
-																 <p className="bold">{matchedUser.name} ({matchedUser.email}) has this item</p>
-															 </div>
-													 </ScrollElement>
-												 );
-												}else{
-													return (
-													 <ScrollElement>
-														 <div className="item">
-															 {brand} - {description}
-														 </div>
-													 </ScrollElement>
-												 );
-												}
+                        <Sidebar
+                            filter = { this.applyFilter }
+                            visible = { this.state.openSidebar }
+                            handleHide = { this.handleHide }
+                        />
 
-				            	})
-					            :
-					            <span>0 items found!</span>
-				            }
-				          </div>
-				        </ScrollView>
+                        <div className="title">
+                            <p className="title-homepage"> Welcome back, {user.name}! </p>
+                        </div>
 
-				        <Link to="/form" className="submissionBtn">
-						    Add a lost item!
-						</Link>
-				    </div>
-
-				    <div className="items found">
-				        <h2>Found Items</h2>
-
-				        <ScrollView ref={scroller => this._scroller = scroller}>
-				          <div className="scroller">
-				            { this.state.foundItems.length ?
-				            	this.state.foundItems.map(({ brand, description, matchedUser }) => {
-												if(matchedUser){
-													return (
-													 <ScrollElement>
-															 <div className="found-item">
-																 <p>{brand} - {description}</p>
-																 <p className="bold">{matchedUser.name} ({matchedUser.email}) lost this item</p>
-															 </div>
-													 </ScrollElement>
-												 );
-												}else{
-													return (
-													 <ScrollElement>
-														 <div className="item">
-															 {brand} - {description}
-														 </div>
-													 </ScrollElement>
-												 );
-												}
-					            })
-				            	:
-				            	<span>0 Items found!</span>
-				            }
-				          </div>
-				        </ScrollView>
-
-				        <Link to="/form" className="submissionBtn">
-						    Add a found item!
-						</Link>
-			        </div>
-                </div>
+                        <Modal open = { this.state.open } onClose = { this.closeSubmissionForm } closeIcon>
+                            <Modal.Content scrolling>
+                                <SubmissionForm user = { user } update={this.update}/>
+                            </Modal.Content>
+                        </Modal>
+                        
+                        <div className="section items">
+                            <ItemsGrid
+                                user = { user }
+                                title = 'Lost'
+                                items = { lostOutput }
+                                filter = { this.state.filter }
+                                update = { this.update }
+                            />
+                        </div>
+                        <div className="section items">
+                            <ItemsGridResolved
+                                user = { user }
+                                title = 'Resolved'
+                                items = { resolvedOutput }
+                                filter = { this.state.filter }
+                                update = { this.update }
+                            />
+                        </div>
+                    </div>
+                }
             </div>
         )
     }
 }
-
 
 export default UserHome;

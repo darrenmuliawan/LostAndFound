@@ -14,30 +14,17 @@ class HorizontalSidebar extends Component {
     }
 
     handleItemClick = (e, { name }) => {
-        this.setState({
-            filter: name,
-        })
-    }
-
-    handleCheck = (value) => {
-        const f = () => {
-            let array = [...this.state.filter];
-            let index = array.indexOf(value);
-
-            if (index !== -1) {
-                array.splice(index, 1);
-                this.setState({
-                    filter: array
-                });
-            } else {
-                array.push(value);
-                this.setState({
-                    filter: array
-                });
-            }
+        if (name === this.state.filter) {
+            this.setState({
+                filter: '',
+            });
+            this.props.filter('');
+        } else {
+            this.setState({
+                filter: name,
+            });
+            this.props.filter(name);
         }
-        this.props.filter(this.state.filter);
-        return f;
     }
 
     handleHide = () => {        
@@ -51,7 +38,7 @@ class HorizontalSidebar extends Component {
     render () {
         const { visible } = this.props;
         const { filter } = this.state;
-        console.log(this.state.filter);
+        //console.log(this.state.filter);
         
         return (
             <Sidebar 
@@ -71,7 +58,7 @@ class HorizontalSidebar extends Component {
                 <Menu.Item as='a' name="Credit/Debit Card" onClick={this.handleItemClick} active={filter === 'Credit/Debit Card'}> <Icon name='credit card'/> Credit/Debit Card </Menu.Item>
                 <Menu.Item as='a' name="Cell Phone" onClick={this.handleItemClick} active={filter === 'Cell Phone'}> <Icon name='mobile alternate'/> Cell Phone </Menu.Item>
                 <Menu.Item as='a' name="Driver's License/ID" onClick={this.handleItemClick} active={filter === "Driver's License/ID"}> <Icon name='id card'/> Driver's License/ID </Menu.Item>
-                <Menu.Item as='a' name="Electronics" onClick={this.handleItemClick} active={filter === 'Electronics'}> <Icon name='lightning'/> Electronics </Menu.Item>
+                <Menu.Item as='a' name="Electronic" onClick={this.handleItemClick} active={filter === 'Electronic'}> <Icon name='lightning'/> Electronics </Menu.Item>
                 <Menu.Item as='a' name="Glasses" onClick={this.handleItemClick} active={filter === 'Glasses'}> <Icon name='eye'/> Glasses </Menu.Item>
                 <Menu.Item as='a' name="Jewelry" onClick={this.handleItemClick} active={filter === 'Jewelry'}> <Icon name='gift'/> Jewelry </Menu.Item>
                 <Menu.Item as='a' name="Keys" onClick={this.handleItemClick} active={filter === 'Keys'}> <Icon name='key'/> Keys </Menu.Item>

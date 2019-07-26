@@ -66,8 +66,16 @@ $bp-desktop-22: 1680px;
     margin-left: 15px;
 }
 
+.name-details {
+    text-decoration: underline;
+    color: blue;
+}
+.name-details:hover {
+    cursor: pointer;
+}
 .button-found {
     width: 100%;
+    margin-bottom: 15px !important;
 }
 
 .list-title {

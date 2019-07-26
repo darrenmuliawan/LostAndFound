@@ -65,6 +65,15 @@ $height-header: 60px;
     //padding: 10px 10px 10px 10px !important;
 }
 
+.notification-items {
+    font-size: 15px !important;
+}
+
+.notification-items:hover {
+    transform: scale(1.02) !important;
+    cursor: pointer;
+}
+
 .header-user-menu:hover {
     transform: scale(1.1);
     //background-color: red !important;
@@ -79,4 +88,12 @@ $height-header: 60px;
 
 .filter-btn, .notif-btn:hover {
     opacity: 1;
+}
+
+#menu-1 {
+    margin: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+    border-bottom-style: solid;
+    border-bottom-width: 1px !important;
+    border-bottom-color: grey !important;
 }

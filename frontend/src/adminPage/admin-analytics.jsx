@@ -4,7 +4,8 @@ import './admin-analytics.scss'
 import LineChart from './lineChart.jsx';
 import BarGraph from './barGraph.jsx';
 import { Divider, Dropdown, Modal } from 'semantic-ui-react';
-import SubmissionForm from '../SubmissionForm/SubmissionForm.jsx';
+import SubmissionForm from '../forms/submissionForm.jsx';
+import axios from 'axios';
 
 let options = [
     {
@@ -81,7 +82,47 @@ class AdminAnalytics extends Component {
         this.state = {
             selected: 'All Items',
             openSubmissionForm: false,
+            lostItems: [{
+                id: '',
+                images: [],
+                resolved: false,
+                date: '',
+                location: '',
+                category: '',
+                brand: '',
+                model: '',
+                description: '',
+                lostBy: '',
+            }],
+            foundItems: [{
+                id: '',
+                images: [],
+                resolved: false,
+                date: '',
+                location: '',
+                category: '',
+                brand: '',
+                model: '',
+                description: '',
+                foundBy: '',
+            }],
         }
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:4000/api/lostitems').then(res => {
+            console.log(res.data.data);
+            this.setState({
+                lostItems: res.data.data,
+            });
+        });
+
+        axios.get('http://localhost:4000/api/founditems').then(res => {
+            console.log(res.data.data);
+            this.setState({
+                foundItems: res.data.data,
+            });
+        });
     }
 
     openSubmissionForm = () => {
@@ -104,6 +145,7 @@ class AdminAnalytics extends Component {
 
     render() {
         console.log(this.state.selected);
+        console.log(this.state);
         
         return(
             <div className="sections">
@@ -130,25 +172,36 @@ class AdminAnalytics extends Component {
                     {this.state.selected !== "All Items" ? 
                         <div className="admin-analytics-graph-container">
                             <div className="left-graph">
-                                <LineChart x="Months" y="Numbers of items lost" />
+                                <LineChart 
+                                    x="Months" 
+                                    y="Numbers of items lost" 
+                                    items = { this.state.lostItems }
+                                    filter = { this.state.selected }
+                                />
                             </div>
                             <div className="right-graph">
-                                <LineChart x="Months" y="Numbers of items found"/> 
+                                <LineChart 
+                                    x = "Months" 
+                                    y = "Numbers of items found"
+                                    items = { this.state.foundItems }    
+                                    filter = { this.state.selected }
+                                /> 
                             </div>
                         </div> 
                         : 
                         <div className="admin-analytics-graph-container">
                             <div className="left-graph">
-                                <BarGraph y="Numbers of items lost" />
+                                <BarGraph y="Numbers of items lost" items={ this.state.lostItems }/>
                             </div>
                             <div className="right-graph">
-                                <BarGraph y="Numbers of items found"/> 
+                                <BarGraph y="Numbers of items found" items={ this.state.foundItems }/> 
                             </div>
                         </div>
                     }
                     <Modal open = { this.state.openSubmissionForm } onClose = { this.closeSubmissionForm } closeIcon>
                         <Modal.Content scrolling>
-                            <SubmissionForm/>
+                            <SubmissionForm
+                            user = { this.props.location.state.user }/>
                         </Modal.Content>
                     </Modal>
                 </div>

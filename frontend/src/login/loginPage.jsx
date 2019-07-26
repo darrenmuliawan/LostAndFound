@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import './login.scss'
-import { Modal, Header, Button} from 'semantic-ui-react'
+import { Modal, Header, Button, Message} from 'semantic-ui-react'
 import googleImg from './googleButton.png';
-
+import axios from 'axios';
 
 import app from 'firebase/app';
 import 'firebase/auth';
@@ -18,12 +18,37 @@ class Login extends Component {
         super();
 
         this.state = {
+            wrong: false,
         };
     }
 
     signIn = () => {
-        console.log(document.getElementById("username").value);
-        console.log(document.getElementById("password").value);
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        //console.log(document.getElementById("username").value);
+        //console.log(document.getElementById("password").value);
+        axios.get('http://localhost:4000/api/users/?where={"username":"' + username + '"}').then(res => {
+            //console.log(res);
+            let user = {};
+            if (res.data.message === "User not found!") {
+                return this.setState({ wrong: true })
+            } else if (res.data.data[0].password === password) {
+                this.setState({
+                    wrong: false,
+                })
+                console.log('Login successful!');
+                user = res.data.data[0];
+                console.log(user);
+            } else {
+                return this.setState({ wrong: true })
+            }
+            if (user.admin === true) {
+                this.props.history.push('/' + user._id + '/a', {user: user})
+            } else {
+                this.props.history.push('/' + user._id + '/u', {user: user})
+            }
+            //console.log(res.data.data[0]);
+        })
     }
     render() {
         return (
@@ -43,6 +68,7 @@ class Login extends Component {
                         <Button color="green" onClick={ this.signIn }> Sign In </Button>
                     </div>
                     <p className="signup-text" onClick={ this.props.openSignUp }> Don't have an account yet? Sign up here! </p>
+                    {this.state.wrong && <Message error visible={this.state.wrong} header="Failed to sign in" content="Username or password is wrong." className="error-message"/>}
                 </Modal.Content>
             </Modal>
         )
@@ -51,4 +77,4 @@ class Login extends Component {
 
 
 
-export default Login;
+export default withRouter(Login);

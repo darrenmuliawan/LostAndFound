@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import AdminHomepage from './adminPage/admin-homepage.jsx';
 import AdminDetails from './adminPage/admin-details.jsx';
 import AdminActivities from './adminPage/admin-history.jsx';
@@ -52,13 +52,12 @@ render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
-          <Route exact path="/admin" component={AdminHomepage}/>
-          <Route exact path="/admin/profile" component={AdminDetails}/>
-          <Route exact path="/admin/history" component={AdminActivities}/>
-          <Route exact path="/admin/analytics" component={AdminAnalytics}/>
-          <Route exact path="/form" component={SubmissionForm} />
+          <Route exact path="/:id/a" component={AdminHomepage}/>
+          <Route exact path="/:id/u" component={UserHome}/>
+          <Route exact path="/:id/profile" component={AdminDetails}/>
+          <Route exact path="/:id/history" component={AdminActivities}/>
+          <Route exact path="/:id/a/analytics" component={AdminAnalytics}/>
           <Route exact path="/" component={Home}/>
-          <Route exact path="/user" component={UserHome}/>
         </Switch>
       </Router>
     );

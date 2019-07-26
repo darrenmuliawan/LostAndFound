@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, Button, Message } from 'semantic-ui-react'
 import './forms.scss';
+import axios from 'axios';
 
 class PasswordChangeForm extends Component {
     constructor() {
@@ -18,10 +19,15 @@ class PasswordChangeForm extends Component {
         let newPassword = document.getElementById("edit-profile-input-new-password").value;
 
         if (oldPassword === this.props.user.password && oldPassword !== newPassword) {
+            axios.put("http://localhost:4000/api/users/" + this.props.user._id, { password: newPassword }).then(res => {
+                console.log( res );
+            });
+            this.props.update();
             this.setState({
                 success: true,
                 error: false,
             });
+            //this.closeModal();
         } else if (oldPassword === this.props.user.password && oldPassword === newPassword) {
             this.setState({
                 success: false,
@@ -47,7 +53,7 @@ class PasswordChangeForm extends Component {
     }
 
     render() {
-        console.log(this.props.user);
+        //console.log(this.props.user);
         
         return(
             <Modal open={ this.props.open } closeIcon onClose={ this.closeModal }>
