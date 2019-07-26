@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/LostAndFound/static/css/main.386ad2a7.chunk.css",
+    "main.js": "/LostAndFound/static/js/main.b95d82e5.chunk.js",
+    "main.js.map": "/LostAndFound/static/js/main.b95d82e5.chunk.js.map",
+    "runtime~main.js": "/LostAndFound/static/js/runtime~main.3ac0bbb9.js",
+    "runtime~main.js.map": "/LostAndFound/static/js/runtime~main.3ac0bbb9.js.map",
+    "static/css/2.e828229e.chunk.css": "/LostAndFound/static/css/2.e828229e.chunk.css",
+    "static/js/2.92c0886a.chunk.js": "/LostAndFound/static/js/2.92c0886a.chunk.js",
+    "static/js/2.92c0886a.chunk.js.map": "/LostAndFound/static/js/2.92c0886a.chunk.js.map",
+    "index.html": "/LostAndFound/index.html",
+    "precache-manifest.9b850d6ee4d06cda1b6a9b9059e10e71.js": "/LostAndFound/precache-manifest.9b850d6ee4d06cda1b6a9b9059e10e71.js",
+    "service-worker.js": "/LostAndFound/service-worker.js",
+    "static/css/2.e828229e.chunk.css.map": "/LostAndFound/static/css/2.e828229e.chunk.css.map",
+    "static/css/main.386ad2a7.chunk.css.map": "/LostAndFound/static/css/main.386ad2a7.chunk.css.map",
+    "static/media/semantic.min.css": "/LostAndFound/static/media/outline-icons.ef60a4f6.woff",
+    "static/media/googleButton.png": "/LostAndFound/static/media/googleButton.9db907da.png",
+    "static/media/home.scss": "/LostAndFound/static/media/homepage.95f0c75e.jpg"
+  }
+}
