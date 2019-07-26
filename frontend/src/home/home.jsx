@@ -6,12 +6,6 @@ import Login from '../login/loginPage.jsx'
 import SignUp from '../login/signUpPage.jsx'
 import NavBar from '../nav-bar/navbar.jsx'
 
-
-import app from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
-import firebase from 'firebase';
-
 class Home extends Component {
     constructor() {
         super();
@@ -22,9 +16,6 @@ class Home extends Component {
           open: false,
           openSignUp: false,
         };
-
-        this.auth = app.auth();
-
     }
 
     handleChange(e) {
