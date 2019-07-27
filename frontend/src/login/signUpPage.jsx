@@ -31,7 +31,7 @@ class signup extends Component {
         let phone = document.getElementById("phone").value;
         let address = document.getElementById("address").value;
         
-        axios.post('http://localhost:4000/api/users', { name, email, phone, address, username, password }).then(res => {
+        axios.post('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users', { name, email, phone, address, username, password }).then(res => {
             if (res) {
                 return this.setState({success: true});
             }

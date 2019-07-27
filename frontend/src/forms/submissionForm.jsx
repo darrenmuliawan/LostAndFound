@@ -52,22 +52,22 @@ class SubmissionForm extends Component {
 
         if (this.state.value === "lost" || this.props.user.admin === false) {
             let lostBy = this.props.user._id;
-            axios.post("http://localhost:4000/api/lostitems", { location, category, brand, model, description, date, lostBy }).then( res => {
+            axios.post("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems", { location, category, brand, model, description, date, lostBy }).then( res => {
                 if (res.status === 201) {
                     this.setState({success: true})
                     let user_id = res.data.data.lostBy;
                     let item_id = res.data.data._id;
                     let activity = "You posted a Lost item: " + res.data.data.brand + ' ' + res.data.data.model + " (Item ID #" + item_id + ")";
-                    axios.put("http://localhost:4000/api/users/" + user_id, { activity })
+                    axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + user_id, { activity })
 
                     // NOTIFY ALL ADMINS
-                    axios.get("http://localhost:4000/api/users/?where={\"admin\":true}").then(res => {
+                    axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/?where={\"admin\":true}").then(res => {
                         let user_arr = res.data.data;
                         let i = 0;
                         for (i = 0; i < user_arr.length; i++) {
                             let uid = user_arr[i]._id;
                             let notification = this.props.user.name + " posted Lost item (#" + item_id + ")";
-                            axios.put("http://localhost:4000/api/users/" + uid, { notification })
+                            axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + uid, { notification })
                         }
                     })
                 }
@@ -78,7 +78,7 @@ class SubmissionForm extends Component {
             })
         } else if (this.state.value === "found") {
             let foundBy = this.props.user._id;
-            axios.post("http://localhost:4000/api/founditems", { location, category, brand, model, description, date, foundBy }).then( res => {
+            axios.post("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/founditems", { location, category, brand, model, description, date, foundBy }).then( res => {
                 console.log(res);
                 
                 if (res.status === 201) {
@@ -87,7 +87,7 @@ class SubmissionForm extends Component {
                     let user_id = res.data.data.foundBy;
                     let item_id = res.data.data._id;
                     let activity = "You posted a Found item: " + res.data.data.brand + ' ' + res.data.data.model + " (Item ID #" + item_id + ")";
-                    axios.put("http://localhost:4000/api/users/" + user_id, { activity })
+                    axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + user_id, { activity })
                 }
             }).then(res => {
                 if (this.props.update) {

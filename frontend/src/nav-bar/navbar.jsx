@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 import './navbar.scss'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { Icon } from 'semantic-ui-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDove } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +22,7 @@ class NavBar extends Component {
         return (
             <div className="section headers2">
                 <div className="header-logo">
-                    <FontAwesomeIcon icon={ faDove }/>
+                    <Icon name="bird"/>
                 </div>
 
                 <div className="header-title">

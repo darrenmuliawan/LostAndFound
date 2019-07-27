@@ -19,7 +19,7 @@ class PasswordChangeForm extends Component {
         let newPassword = document.getElementById("edit-profile-input-new-password").value;
 
         if (oldPassword === this.props.user.password && oldPassword !== newPassword) {
-            axios.put("http://localhost:4000/api/users/" + this.props.user._id, { password: newPassword }).then(res => {
+            axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.user._id, { password: newPassword }).then(res => {
                 console.log( res );
             });
             this.props.update();

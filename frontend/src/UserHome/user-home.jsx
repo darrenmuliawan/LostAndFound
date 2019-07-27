@@ -46,15 +46,15 @@ class UserHome extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:4000/api/lostitems/?count&where={\"lostBy\":\"" + this.props.location.state.user._id + '"}').then(res => {
+        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems/?count&where={\"lostBy\":\"" + this.props.location.state.user._id + '"}').then(res => {
             this.setState({count: res.data.count});
         });
-		axios.get("http://localhost:4000/api/users/" + this.props.location.state.user._id).then(res => {
+		axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
 			this.setState({notifications: res.data.data.notifications})
 			let items = res.data.data.items;
 			let i = 0
 			for (i = 0; i < items.length; i++) {
-			    axios.get("http://localhost:4000/api/lostitems/" + items[i]).then(res => {
+			    axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems/" + items[i]).then(res => {
 					this.setState({
 		    			items: [...this.state.items, res.data.data]
 					})
@@ -88,12 +88,12 @@ class UserHome extends Component {
 		this.setState({
 			items: []
 		});
-		axios.get("http://localhost:4000/api/users/" + this.props.location.state.user._id).then(res => {
+		axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
 			this.setState({notifications: res.data.data.notifications})
 			let items = res.data.data.items;
 			let i = 0
 			for (i = 0; i < items.length; i++) {
-				axios.get("http://localhost:4000/api/lostitems/" + items[i]).then(res => {
+				axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems/" + items[i]).then(res => {
 					this.setState({
 						items: [...this.state.items, res.data.data]
 					})

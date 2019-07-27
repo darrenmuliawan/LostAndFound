@@ -110,14 +110,14 @@ class AdminAnalytics extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/api/lostitems').then(res => {
+        axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems').then(res => {
             console.log(res.data.data);
             this.setState({
                 lostItems: res.data.data,
             });
         });
 
-        axios.get('http://localhost:4000/api/founditems').then(res => {
+        axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/founditems').then(res => {
             console.log(res.data.data);
             this.setState({
                 foundItems: res.data.data,

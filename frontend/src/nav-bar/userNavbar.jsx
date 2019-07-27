@@ -31,7 +31,7 @@ class UserNavbar extends Component {
 
     componentDidMount() {
         console.log(this.props);
-        axios.get("http://localhost:4000/api/users/" + this.props.location.state.user._id).then(res => {
+        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
             console.log(res);
             
             this.setState({
@@ -49,7 +49,7 @@ class UserNavbar extends Component {
         user_id[1] = user_id[1].substring(0, user_id[1].length - 1);
         //console.log(user_id[1]);
         if (user_id[1][0] !== '#') {
-            axios.get("http://localhost:4000/api/users/" + user_id[1]).then(res => {
+            axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + user_id[1]).then(res => {
                 this.setState({ 
                     openProfile: true,
                     user: res.data.data
@@ -57,7 +57,7 @@ class UserNavbar extends Component {
             })
         } else {
             let item_id = user_id[1].substring(1, user_id[1].length);
-            axios.get("http://localhost:4000/api/lostitems/" + item_id).then(res => {
+            axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/lostitems/" + item_id).then(res => {
                 console.log(res.data.data);
                 
                 this.setState({
@@ -102,7 +102,7 @@ class UserNavbar extends Component {
     clearNotifications = () => {
         //console.log("CLEAR NOTIFICATIONS");
         
-        axios.put("http://localhost:4000/api/users/" + this.props.user._id + "/clearNotifications", {}).then(res => {
+        axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.user._id + "/clearNotifications", {}).then(res => {
             if (res.status === 200) {
                 this.updateNotifications()
             }

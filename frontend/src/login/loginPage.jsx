@@ -27,7 +27,7 @@ class Login extends Component {
         let password = document.getElementById("password").value;
         //console.log(document.getElementById("username").value);
         //console.log(document.getElementById("password").value);
-        axios.get('http://localhost:4000/api/users/?where={"username":"' + username + '"}').then(res => {
+        axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/?where={"username":"' + username + '"}').then(res => {
             //console.log(res);
             let user = {};
             if (res.data.message === "User not found!") {
