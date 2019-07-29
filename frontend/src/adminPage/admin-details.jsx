@@ -37,7 +37,7 @@ class AdminDetails extends Component {
         //console.log(this.props.location.state.user);
         console.log(this.props);
         
-        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
+        axios.get("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.location.state.user._id).then(res => {
             //console.log(res);
             
             this.setState({
@@ -80,7 +80,7 @@ class AdminDetails extends Component {
     }
 
     update = () => {
-        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
+        axios.get("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.location.state.user._id).then(res => {
             console.log(res);
             
             this.setState({

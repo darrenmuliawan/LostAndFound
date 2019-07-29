@@ -24,14 +24,14 @@ class ItemDetails extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.selectedItem._id !== prevProps.selectedItem._id) {
             if (this.props.selectedItem.lostBy) {
-                axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/' + this.props.selectedItem.lostBy).then(res => {
+                axios.get('https://floating-dusk-33053.herokuapp.com/api/users/' + this.props.selectedItem.lostBy).then(res => {
                     //console.log("halo");
                     this.setState({
                         user: res.data.data
                     })
                 })
             } else {
-                axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/' + this.props.selectedItem.foundBy).then(res => {
+                axios.get('https://floating-dusk-33053.herokuapp.com/api/users/' + this.props.selectedItem.foundBy).then(res => {
                     //console.log("halo");
                     this.setState({
                         user: res.data.data
@@ -73,23 +73,23 @@ class ItemDetails extends Component {
         //console.log(lostBy, foundBy);
         
         if (item.lostBy !== undefined) {
-            axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems/" + item._id, { lostBy, resolved }).then(res => {
+            axios.put("https://floating-dusk-33053.herokuapp.com/api/lostitems/" + item._id, { lostBy, resolved }).then(res => {
                 console.log(res);
                 if (res.status === 200) {
                     let activity = "You resolved a Lost item: " + res.data.data.brand + ' ' + res.data.data.model + " (Item ID #" + item._id + ")";
-                    axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.user._id, { activity })
+                    axios.put("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.user._id, { activity })
                     let notification = "Your Lost " + item.brand + ' ' + item.model + ' '+ ' has been resolved by ' + this.props.user.name + ' (' + this.props.user._id + ')';
-                    axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + lostBy, { notification })
+                    axios.put("https://floating-dusk-33053.herokuapp.com/api/users/" + lostBy, { notification })
                 }
             }).then(res => {
                 this.props.update();
             })
         } else if (item.lostBy === undefined) {
-            axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/founditems/" + item._id, { foundBy, resolved }).then(res => {
+            axios.put("https://floating-dusk-33053.herokuapp.com/api/founditems/" + item._id, { foundBy, resolved }).then(res => {
                 console.log(res);
                 if (res.status === 200) {
                     let activity = "You resolved a Found item: " + res.data.data.brand + ' ' + res.data.data.model + " (Item ID #" + item._id + ")";
-                    axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.user._id, { activity })
+                    axios.put("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.user._id, { activity })
                 }
             }).then(res => {
                 this.props.update();

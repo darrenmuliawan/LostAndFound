@@ -20,7 +20,7 @@ class EditProfileForm extends Component {
         let phone = document.getElementById("edit-profile-input-phone").value;
 
         if (name !== '' && address != '' && email !== '' && phone !== '') {
-            axios.put("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.user._id, { name, email, address, phone }).then( res => {
+            axios.put("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.user._id, { name, email, address, phone }).then( res => {
                 console.log(res);
                 if (res.data.message === "OK") {
                     this.setState({success: true, error: false})

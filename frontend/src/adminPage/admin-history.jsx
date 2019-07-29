@@ -36,7 +36,7 @@ class AdminActivities extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
+        axios.get("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.location.state.user._id).then(res => {
             //console.log(res.data.data);
             
             this.setState({activities: res.data.data.activities})
@@ -58,7 +58,7 @@ class AdminActivities extends Component {
     update = () => {
         console.log("updating!");
         
-        axios.get("http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/users/" + this.props.location.state.user._id).then(res => {
+        axios.get("https://floating-dusk-33053.herokuapp.com/api/users/" + this.props.location.state.user._id).then(res => {
             console.log(res.data.data.activities);
             
             this.setState({activities: res.data.data.activities})
@@ -76,11 +76,11 @@ class AdminActivities extends Component {
 
         this.setState({open: true});
         if (found >= 0) {
-            axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/founditems/' + item_id[1]).then(res => {
+            axios.get('https://floating-dusk-33053.herokuapp.com/api/founditems/' + item_id[1]).then(res => {
                 this.setState({selectedItem: res.data.data});
             })
         } else {
-            axios.get('http://ec2-18-219-2-58.us-east-2.compute.amazonaws.com:4000/api/lostitems/' + item_id[1]).then(res => {
+            axios.get('https://floating-dusk-33053.herokuapp.com/api/lostitems/' + item_id[1]).then(res => {
                 this.setState({selectedItem: res.data.data});
             })
         }
