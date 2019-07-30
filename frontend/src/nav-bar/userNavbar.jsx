@@ -57,7 +57,7 @@ class UserNavbar extends Component {
             })
         } else {
             let item_id = user_id[1].substring(1, user_id[1].length);
-            axios.get("https://floating-dusk-33053.herokuapp.com/lostitems/" + item_id).then(res => {
+            axios.get("https://floating-dusk-33053.herokuapp.com/api/lostitems/" + item_id).then(res => {
                 console.log(res.data.data);
                 
                 this.setState({

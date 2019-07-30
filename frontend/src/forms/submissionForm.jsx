@@ -51,8 +51,12 @@ class SubmissionForm extends Component {
         let date = this.state.date;
 
         if (this.state.value === "lost" || this.props.user.admin === false) {
+            console.log('masuk');
+            
             let lostBy = this.props.user._id;
             axios.post("https://floating-dusk-33053.herokuapp.com/api/lostitems", { location, category, brand, model, description, date, lostBy }).then( res => {
+                console.log('masuk', res);
+                
                 if (res.status === 201) {
                     this.setState({success: true})
                     let user_id = res.data.data.lostBy;
