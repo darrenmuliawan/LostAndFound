@@ -11,7 +11,7 @@
     "firebase": "^5.11.1",
     "gh-pages": "^2.0.1",
     "i": "^0.3.6",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "npm": "^6.9.0",
     "react": "^16.8.6",
     "react-datepicker": "^2.8.0",
